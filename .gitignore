@@ -1,5 +1,10 @@
 data/lib/**
 data/node_modules/**
-data/package.json/**
-data/settings.js/**
+data/package.json
+data/settings.js
+data/.config.nodes.json
+data/.config.runtime.json
+data/.config.users.json
+data/.config.users.json.backup
+data/.npm/**
 
