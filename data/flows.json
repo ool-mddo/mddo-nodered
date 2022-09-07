@@ -420,7 +420,7 @@
         "type": "function",
         "z": "1298b4fe103a59c1",
         "name": "convertlist",
-        "func": "var temp = msg[\"payload\"];\nvar array = [];\nfor (var tmpnode of temp) {\n  var array2 = []\n  for (let i = 0; i < tmpnode[\"iflist\"].length; i++) {\n    var convertlist = {};\n    var ifname;\n\n    ifname = msg.req.params.ifname;\n    convertlist[\"original\"] = tmpnode[\"iflist\"][i];\n    convertlist[\"clab\"] = ifname.concat('', i+1)\n    array2.push(convertlist)\n  }\n  array.push({ \"node\": { \"original\": tmpnode[\"node\"], \"clab\": tmpnode[\"node\"].replace(\"/\", \"_\") }, \"iflist\": array2 })\n}\nmsg.payload = array\nreturn msg;",
+        "func": "var temp = msg[\"payload\"];\nvar array = [];\nfor (var tmpnode of temp) {\n  var array2 = []\n  for (let i = 0; i < tmpnode[\"iflist\"].length; i++) {\n    var convertlist = {};\n    var ifname;\n\n    ifname = msg.req.params.ifname;\n    convertlist[\"original\"] = tmpnode[\"iflist\"][i];\n    convertlist[\"clab\"] = ifname.concat('', i+1)\n    array2.push(convertlist)\n  }\n  array.push({ \"node\": { \"original\": tmpnode[\"node\"], \"clab\": tmpnode[\"node\"].replace(\"/\", \"-\").replace(\"_\", \"-\")   }, \"iflist\": array2 })\n}\nmsg.payload = array\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -695,7 +695,7 @@
         "type": "function",
         "z": "1298b4fe103a59c1",
         "name": "convertlist_ospf",
-        "func": "var temp = msg[\"payload\"];\nvar array = [];\nfor (var tmpnode of temp) {\n  var array2 = []\n  for (let i = 0; i < tmpnode[\"iflist\"].length; i++) {\n    var convertlist = {};\n    var ifname;\n    if (tmpnode[\"node\"].includes(\"Seg\")){\n        ifname = \"Ethernet\";\n    }\n    else {\n        ifname = msg.req.params.ifname;\n    }\n    convertlist[\"original\"] = tmpnode[\"iflist\"][i];\n    convertlist[\"clab\"] = ifname.concat('', i+1)\n    array2.push(convertlist)\n  }\n  array.push({ \"node\": { \"original\": tmpnode[\"node\"], \"clab\": tmpnode[\"node\"].replace(\"/\", \"_\") }, \"iflist\": array2 })\n}\nmsg.payload = array\nreturn msg;",
+        "func": "var temp = msg[\"payload\"];\nvar array = [];\nvar loopback_regex = \"lo|Loop\"\nvar clab_loopback = \"lo\"\nfor (var tmpnode of temp) {\n  var array2 = []\n  for (let i = 0; i < tmpnode[\"iflist\"].length; i++) {\n    var convertlist = {};\n    var ifname;\n    if (tmpnode[\"node\"].includes(\"Seg\")){\n        ifname = \"Ethernet\";\n    }\n    else {\n      ifname = msg.req.params.ifname;\n    }\n    convertlist[\"original\"] = tmpnode[\"iflist\"][i];\n    if (tmpnode[\"iflist\"][i].match(loopback_regex)) {\n      convertlist[\"clab\"] = clab_loopback\n    }\n    else {\n      convertlist[\"clab\"] = ifname.concat('', i + 1)\n    }\n    array2.push(convertlist)\n  }\n  array.push({ \"node\": { \"original\": tmpnode[\"node\"], \"clab\": tmpnode[\"node\"].replace(\"/\", \"-\").replace(\"_\", \"-\") }, \"iflist\": array2 })\n}\nmsg.payload = array\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -996,73 +996,6 @@
         "wires": [
             [
                 "3f266eb19df40d03"
-            ]
-        ]
-    },
-    {
-        "id": "6567fe50ad9e7aa3",
-        "type": "exec",
-        "z": "1298b4fe103a59c1",
-        "command": "npm install collections --save",
-        "addpay": "",
-        "append": "",
-        "useSpawn": "false",
-        "timer": "",
-        "winHide": false,
-        "oldrc": false,
-        "name": "",
-        "x": 320,
-        "y": 380,
-        "wires": [
-            [
-                "c7deee33ae5f4cb4"
-            ],
-            [],
-            []
-        ]
-    },
-    {
-        "id": "c7deee33ae5f4cb4",
-        "type": "debug",
-        "z": "1298b4fe103a59c1",
-        "name": "debug 7",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 620,
-        "y": 380,
-        "wires": []
-    },
-    {
-        "id": "054300336e34a6d4",
-        "type": "inject",
-        "z": "1298b4fe103a59c1",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 80,
-        "y": 380,
-        "wires": [
-            [
-                "6567fe50ad9e7aa3"
             ]
         ]
     }
