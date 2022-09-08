@@ -375,7 +375,7 @@
         "id": "dccf65ab61be785f",
         "type": "http request",
         "z": "1298b4fe103a59c1",
-        "name": "request layer_iflist",
+        "name": "request /layer_iflist",
         "method": "GET",
         "ret": "txt",
         "paytoqs": "ignore",
@@ -561,7 +561,7 @@
         "id": "645c8cb3cc0bc1c8",
         "type": "http request",
         "z": "1298b4fe103a59c1",
-        "name": "request convertif",
+        "name": "request /convertif",
         "method": "GET",
         "ret": "txt",
         "paytoqs": "ignore",
@@ -580,7 +580,7 @@
                 "valueValue": ""
             }
         ],
-        "x": 390,
+        "x": 400,
         "y": 640,
         "wires": [
             [
@@ -627,7 +627,7 @@
         "id": "d69fa32c75705569",
         "type": "http request",
         "z": "1298b4fe103a59c1",
-        "name": "request links",
+        "name": "request /links",
         "method": "GET",
         "ret": "txt",
         "paytoqs": "ignore",
@@ -730,7 +730,7 @@
         "id": "d9a82264795ea862",
         "type": "http request",
         "z": "1298b4fe103a59c1",
-        "name": "request layer_iflist",
+        "name": "request /layer_iflist",
         "method": "GET",
         "ret": "txt",
         "paytoqs": "ignore",
@@ -794,7 +794,7 @@
         "id": "6f30cbba6716daa3",
         "type": "http request",
         "z": "1298b4fe103a59c1",
-        "name": "request convertif/batfish",
+        "name": "request /convertif/batfish",
         "method": "GET",
         "ret": "txt",
         "paytoqs": "ignore",
@@ -842,7 +842,7 @@
         "id": "c6d9f77847d220ee",
         "type": "http request",
         "z": "1298b4fe103a59c1",
-        "name": "request convertlink/batfish",
+        "name": "request /convertlink/batfish",
         "method": "GET",
         "ret": "txt",
         "paytoqs": "ignore",
@@ -861,7 +861,7 @@
                 "valueValue": ""
             }
         ],
-        "x": 350,
+        "x": 360,
         "y": 820,
         "wires": [
             [
@@ -908,7 +908,7 @@
         "id": "bec1cb245ea31b01",
         "type": "http request",
         "z": "1298b4fe103a59c1",
-        "name": "request convertif/batfish",
+        "name": "request /convertif/batfish",
         "method": "GET",
         "ret": "txt",
         "paytoqs": "ignore",
@@ -940,7 +940,7 @@
         "type": "function",
         "z": "1298b4fe103a59c1",
         "name": "description",
-        "func": "var tmpnodes = msg.payload\nvar convertlink = msg[\"payload2\"]\nvar descrlist = []\nfor (var targetnode of tmpnodes ) {\n    for (var interface of targetnode[\"iflist\"]) {\n        for ( var tmplink of convertlink) {\n            for (var tmpif of targetnode.iflist){\n                var split_endpoint = tmplink.endpoints[0].split(\":\")\n                var split_endpoint2 = tmplink.endpoints[1].split(\":\")\n                if (split_endpoint[0] == targetnode.node.clab && split_endpoint[1].includes(interface.clab)) {\n                    var to = \"to\"\n                    interface[\"ifDescr\"] = to.concat('_', tmplink.endpoints[1].replace(\":\", \"_\"))\n                }                \n                else if (split_endpoint2[0] == targetnode.node.clab && split_endpoint2[1].includes(interface.clab)) {\n                    var to = \"to\"\n                    interface[\"ifDescr\"] = to.concat('_', tmplink.endpoints[0].replace(\":\", \"_\"))\n                }\n            }\n\n        }\n    }\n}\n\nmsg.payload = tmpnodes\nreturn msg;",
+        "func": "var tmpnodes = msg.payload\nvar convertlink = msg[\"payload2\"]\nvar descrlist = []\nfor (var targetnode of tmpnodes ) {\n    for (var interface of targetnode[\"iflist\"]) {\n        for ( var tmplink of convertlink) {\n            for (var tmpif of targetnode.iflist){\n                var split_endpoint = tmplink.endpoints[0].split(\":\")\n                var split_endpoint2 = tmplink.endpoints[1].split(\":\")\n                if (split_endpoint[0] == targetnode.node.clab && split_endpoint[1].includes(interface.clab)) {\n                    var to = \"to\"\n                    interface.ifDescr = to.concat('_', tmplink.endpoints[1].replace(\":\", \"_\"))\n                }                \n                else if (split_endpoint2[0] == targetnode.node.clab && split_endpoint2[1].includes(interface.clab)) {\n                    var to = \"to\"\n                    interface.ifDescr = to.concat('_', tmplink.endpoints[0].replace(\":\", \"_\"))\n                }\n            }\n\n        }\n    }\n}\n\nmsg.payload = tmpnodes\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1065,5 +1065,183 @@
                 "6567fe50ad9e7aa3"
             ]
         ]
+    },
+    {
+        "id": "010824bc9b0ae4ec",
+        "type": "http in",
+        "z": "1298b4fe103a59c1",
+        "name": "",
+        "url": "/ospf/convertif/batfish",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 1120,
+        "wires": [
+            [
+                "b44c0d864b392870"
+            ]
+        ]
+    },
+    {
+        "id": "b44c0d864b392870",
+        "type": "http request",
+        "z": "1298b4fe103a59c1",
+        "name": "request /ospf_iflist/area0",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://localhost:1880/ospf_iflist/area0",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "Content-Type",
+                "keyValue": "",
+                "valueType": "application/json",
+                "valueValue": ""
+            }
+        ],
+        "x": 310,
+        "y": 1180,
+        "wires": [
+            [
+                "138cc31f81c71f42"
+            ]
+        ]
+    },
+    {
+        "id": "138cc31f81c71f42",
+        "type": "json",
+        "z": "1298b4fe103a59c1",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 490,
+        "y": 1240,
+        "wires": [
+            [
+                "fa7c79d3a1c09bb9"
+            ]
+        ]
+    },
+    {
+        "id": "fa7c79d3a1c09bb9",
+        "type": "function",
+        "z": "1298b4fe103a59c1",
+        "name": "function 3",
+        "func": "msg.payload2 = msg.payload\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 640,
+        "y": 1240,
+        "wires": [
+            [
+                "5302e70373aa4b77"
+            ]
+        ]
+    },
+    {
+        "id": "5302e70373aa4b77",
+        "type": "http request",
+        "z": "1298b4fe103a59c1",
+        "name": "request /convertif/batfish/eth",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://localhost:1880/convertif/batfish/eth",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "Content-Type",
+                "keyValue": "",
+                "valueType": "application/json",
+                "valueValue": ""
+            }
+        ],
+        "x": 500,
+        "y": 1360,
+        "wires": [
+            [
+                "cf6084a0ebfc505d"
+            ]
+        ]
+    },
+    {
+        "id": "cf6084a0ebfc505d",
+        "type": "json",
+        "z": "1298b4fe103a59c1",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 710,
+        "y": 1400,
+        "wires": [
+            [
+                "96e0dfbfc7028055"
+            ]
+        ]
+    },
+    {
+        "id": "96e0dfbfc7028055",
+        "type": "function",
+        "z": "1298b4fe103a59c1",
+        "name": "description",
+        "func": "var json1 = msg[\"payload2\"]\nvar json2 = msg.payload\n\nfor (var e1 of json1) {\n    for (var e2 of json2) {\n        if (e1.node == e2.node.original) {\n            e1.iflist.forEach(function (itf1, idx1) { \n                e2.iflist.forEach(function (itf2) { \n                    if (itf1 === itf2.original) e1.iflist[idx1] = itf2.clab\n                }) \n            }) \n        }\n    }\n}\n\nmsg.payload = json1\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 850,
+        "y": 1340,
+        "wires": [
+            [
+                "f27763b4aa659e08",
+                "52bfe9bdf6fa14b4"
+            ]
+        ]
+    },
+    {
+        "id": "f27763b4aa659e08",
+        "type": "debug",
+        "z": "1298b4fe103a59c1",
+        "name": "debug 8",
+        "active": true,
+        "tosidebar": true,
+        "console": true,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1030,
+        "y": 1400,
+        "wires": []
+    },
+    {
+        "id": "52bfe9bdf6fa14b4",
+        "type": "http response",
+        "z": "1298b4fe103a59c1",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1010,
+        "y": 1280,
+        "wires": []
     }
 ]
