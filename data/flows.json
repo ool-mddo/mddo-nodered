@@ -1162,26 +1162,6 @@
         ]
     },
     {
-        "id": "67da04d7a8482857",
-        "type": "function",
-        "z": "1298b4fe103a59c1",
-        "name": "function 4",
-        "func": "return msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 460,
-        "y": 60,
-        "wires": [
-            [
-                "13feff8e4915cc17",
-                "f025591604472724"
-            ]
-        ]
-    },
-    {
         "id": "bf507f8dbd2097a7",
         "type": "json",
         "z": "1298b4fe103a59c1",
@@ -1189,28 +1169,108 @@
         "property": "payload",
         "action": "obj",
         "pretty": false,
-        "x": 290,
-        "y": 20,
+        "x": 470,
+        "y": 60,
         "wires": [
             [
-                "67da04d7a8482857"
+                "13feff8e4915cc17"
             ]
         ]
     },
     {
-        "id": "f025591604472724",
-        "type": "debug",
+        "id": "74bfacc31e21c322",
+        "type": "http in",
         "z": "1298b4fe103a59c1",
-        "name": "debug 9",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 760,
-        "y": 40,
-        "wires": []
+        "name": "",
+        "url": "convertif/batfish/:ifname",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 140,
+        "y": 400,
+        "wires": [
+            [
+                "1e26736378dd75c4"
+            ]
+        ]
+    },
+    {
+        "id": "1e26736378dd75c4",
+        "type": "http request",
+        "z": "1298b4fe103a59c1",
+        "name": "request layer_iflist",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://localhost:1880/layer_iflist/layer3",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "Content-Type",
+                "keyValue": "",
+                "valueType": "application/json",
+                "valueValue": ""
+            }
+        ],
+        "x": 410,
+        "y": 400,
+        "wires": [
+            [
+                "d5e491acc693be14"
+            ]
+        ]
+    },
+    {
+        "id": "b9c390602d4c0309",
+        "type": "http in",
+        "z": "1298b4fe103a59c1",
+        "name": "",
+        "url": "convertif/:ifname",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 160,
+        "y": 480,
+        "wires": [
+            [
+                "b758f2fdd0c4c254"
+            ]
+        ]
+    },
+    {
+        "id": "b758f2fdd0c4c254",
+        "type": "http request",
+        "z": "1298b4fe103a59c1",
+        "name": "request layer_iflist",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://localhost:1880/layer_iflist/layer3",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "Content-Type",
+                "keyValue": "",
+                "valueType": "application/json",
+                "valueValue": ""
+            }
+        ],
+        "x": 410,
+        "y": 480,
+        "wires": [
+            [
+                "3f6372cf52ecb3fa"
+            ]
+        ]
     }
 ]

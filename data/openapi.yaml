@@ -20,8 +20,6 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   version: 1.0.11
 servers:
-  - url: https://petstore3.swagger.io/api/v3
-  - url: http://node-red:1880
   - url: http://localhost:1880
 paths:
   /layer_iflist/{layer}:
@@ -29,12 +27,12 @@ paths:
       tags:
         - Netomox
       summary: generate iflist data from json file(netomox)
-      description: layerX iflist 
+      description: "{layer} = 'layer1'or 'layer2'or'layer3' "
       operationId: "layer_iflist"
       parameters:
         - name: layer
           in: path
-          description: 
+          description: test
           required: true
           schema:
             type: string
@@ -52,6 +50,62 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/layer_iflist'
+  /convertif/{ifname}:
+    post:
+      tags:
+        - Netomox
+      summary: convert ifname(for containerlab)
+      description: "{ifnanme} = 'eth' "
+      operationId: "convertif"
+      parameters:
+        - name: ifname
+          in: path
+          description: test
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Create a new pet in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Netomox'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/convertif'
+  /convertif/batfish/{ifname}:
+    post:
+      tags:
+        - Netomox
+      summary: convert ifname(for containerlab)
+      description: "{ifnanme} = 'eth' "
+      operationId: "convertif_batfish"
+      parameters:
+        - name: ifname
+          in: path
+          description: test
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Create a new pet in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Netomox'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/convertif_batfish'
 components:
   schemas:
     Netomox:
@@ -107,4 +161,56 @@ components:
     "iflist":
       type: string
       example: "ge-0/0/0"
+    convertif:
+      type: array
+      items:
+        $ref: '#/components/schemas/convertnode'
+    convertnode:
+      type: object
+      properties:
+        "node":
+          type: object
+          properties:
+            "original":
+              type: string
+              example: "Seg_192.168.0.0/24"
+            "clab":
+              type: string
+              example: "Seg-192.168.0.0-24"
+        "iflist":
+          type: array
+          items:
+            properties:
+              "original":
+                type: string
+                example: "sw1_Ethernet1"
+              "clab":
+                type: string
+                example: "eth1"
+    convertif_batfish:
+      type: array
+      items:
+        $ref: '#/components/schemas/convertnode_batfish'
+    convertnode_batfish:
+      type: object
+      properties:
+        "node":
+          type: object
+          properties:
+            "original":
+              type: string
+              example: "Seg_192.168.0.0/24"
+            "clab":
+              type: string
+              example: "Seg-192.168.0.0-24"
+        "iflist":
+          type: array
+          items:
+            properties:
+              "original":
+                type: string
+                example: "sw1_Ethernet1"
+              "clab":
+                type: string
+                example: "Ethernet1"
 

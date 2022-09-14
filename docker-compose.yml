@@ -25,8 +25,12 @@ services:
   swagger-editor:
     image: swaggerapi/swagger-editor
     container_name: "swagger-editor"
+    volumes:
+      - ./data/openapi.yaml:/openapi.yaml
     ports:
       - "8001:8080"
+    environment:
+      SWAGGER_FILE: /openapi.yaml
     networks:
       - node-red-net
 
@@ -41,16 +45,6 @@ services:
       - ./data/openapi.yaml:/openapi.yaml
     environment:
       SWAGGER_JSON: /openapi.yaml
-  swagger-api:
-    image: stoplight/prism:3
-    container_name: "swagger-api"
-    networks:
-      - node-red-net
-    ports:
-      - "8003:4010"
-    command: mock -h 0.0.0.0 /openapi.yaml
-    volumes:
-      - ./data/openapi.yaml:/openapi.yaml
 #volumes:
 #  node-red-data:
 
