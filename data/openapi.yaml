@@ -54,7 +54,7 @@ paths:
     post:
       tags:
         - Netomox
-      summary: convert ifname(for containerlab)
+      summary: convert layer3 ifname(for containerlab)
       description: "{ifnanme} = 'eth' "
       operationId: "convertif"
       parameters:
@@ -82,8 +82,8 @@ paths:
     post:
       tags:
         - Netomox
-      summary: convert ifname(for containerlab)
-      description: "{ifnanme} = 'eth' "
+      summary: convert layer3 ifname(for containerlab) ver batfish
+      description: "{ifnanme} = 'eth' version batfish (sw ifname = EthernetX)"
       operationId: "convertif_batfish"
       parameters:
         - name: ifname

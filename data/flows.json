@@ -444,7 +444,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 140,
-        "y": 580,
+        "y": 600,
         "wires": [
             [
                 "ccf355d99b7da903"
@@ -484,7 +484,7 @@
         "encoding": "utf8",
         "allProps": false,
         "x": 410,
-        "y": 580,
+        "y": 600,
         "wires": [
             [
                 "7fa384e887d60e58"
@@ -497,7 +497,7 @@
         "z": "1298b4fe103a59c1",
         "name": "",
         "property": "payload",
-        "action": "",
+        "action": "obj",
         "pretty": false,
         "x": 610,
         "y": 580,
@@ -1270,6 +1270,23 @@
         "wires": [
             [
                 "3f6372cf52ecb3fa"
+            ]
+        ]
+    },
+    {
+        "id": "5ec23e7466dcaf3e",
+        "type": "http in",
+        "z": "1298b4fe103a59c1",
+        "name": "",
+        "url": "/links/:layer",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 180,
+        "y": 560,
+        "wires": [
+            [
+                "7fa384e887d60e58"
             ]
         ]
     }
