@@ -33,18 +33,6 @@ services:
       SWAGGER_FILE: /openapi.yaml
     networks:
       - node-red-net
-
-  swagger-ui:
-    image: swaggerapi/swagger-ui
-    container_name: "swagger-ui"
-    ports:
-      - "8002:8080"
-    networks:
-      - node-red-net
-    volumes:
-      - ./data/openapi.yaml:/openapi.yaml
-    environment:
-      SWAGGER_JSON: /openapi.yaml
 #volumes:
 #  node-red-data:
 
