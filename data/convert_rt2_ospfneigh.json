@@ -1,0 +1,107 @@
+{
+  "ospf-neighbor-information": [
+    {
+      "attributes": {
+        "xmlns": "http://xml.juniper.net/junos/22.1R0/junos-routing"
+      },
+      "ospf-neighbor": [
+        {
+          "neighbor-address": [
+            {
+              "data": "10.0.0.1"
+            }
+          ],
+          "interface-name": [
+            {
+              "data": "ge-0/0/0.0"
+            }
+          ],
+          "ospf-neighbor-state": [
+            {
+              "data": "Full"
+            }
+          ],
+          "neighbor-id": [
+            {
+              "data": "172.16.0.1"
+            }
+          ],
+          "neighbor-priority": [
+            {
+              "data": "128"
+            }
+          ],
+          "activity-timer": [
+            {
+              "data": "32"
+            }
+          ]
+        },
+        {
+          "neighbor-address": [
+            {
+              "data": "10.1.0.3"
+            }
+          ],
+          "interface-name": [
+            {
+              "data": "ge-0/0/1.0"
+            }
+          ],
+          "ospf-neighbor-state": [
+            {
+              "data": "Full"
+            }
+          ],
+          "neighbor-id": [
+            {
+              "data": "172.16.0.4"
+            }
+          ],
+          "neighbor-priority": [
+            {
+              "data": "128"
+            }
+          ],
+          "activity-timer": [
+            {
+              "data": "32"
+            }
+          ]
+        },
+        {
+          "neighbor-address": [
+            {
+              "data": "10.1.0.2"
+            }
+          ],
+          "interface-name": [
+            {
+              "data": "ge-0/0/1.0"
+            }
+          ],
+          "ospf-neighbor-state": [
+            {
+              "data": "Full"
+            }
+          ],
+          "neighbor-id": [
+            {
+              "data": "172.16.0.3"
+            }
+          ],
+          "neighbor-priority": [
+            {
+              "data": "128"
+            }
+          ],
+          "activity-timer": [
+            {
+              "data": "34"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
