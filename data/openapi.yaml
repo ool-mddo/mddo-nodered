@@ -106,6 +106,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/convertif_batfish'
+  /links/{layer}:
+    post:
+      tags:
+        - Netomox
+      summary: generate p2p link data from json file(netomox)
+      description: "{layer} = 'layer1'or 'layer2'or'layer3' "
+      operationId: "layer_links"
+      parameters:
+        - name: layer
+          in: path
+          description: test
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Create a new pet in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Netomox'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/layer_iflist'
 components:
   schemas:
     Netomox:
@@ -128,6 +156,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/node'
+        "ietf-network-topology:link":
+          type: object
+          items:
+            $ref: '#/components/schemas/links'          
+          
     node:
       type: object
       properties:
@@ -213,4 +246,7 @@ components:
               "clab":
                 type: string
                 example: "Ethernet1"
-
+    links:
+      type: array
+      items:
+        $ref: '#/components/schemas/p2plink'      
