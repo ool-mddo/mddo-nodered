@@ -1,0 +1,105 @@
+{
+    "ospf-neighbor-information" : [
+    {
+        "attributes" : {"xmlns" : "http://xml.juniper.net/junos/22.1R0/junos-routing"}, 
+        "ospf-neighbor" : [
+        {
+            "neighbor-address" : [
+            {
+                "data" : "10.0.1.1"
+            }
+            ], 
+            "interface-name" : [
+            {
+                "data" : "eth1"
+            }
+            ], 
+            "ospf-neighbor-state" : [
+            {
+                "data" : "Full"
+            }
+            ], 
+            "neighbor-id" : [
+            {
+                "data" : "172.16.0.1"
+            }
+            ], 
+            "neighbor-priority" : [
+            {
+                "data" : "128"
+            }
+            ], 
+            "activity-timer" : [
+            {
+                "data" : "31"
+            }
+            ]
+        }, 
+        {
+            "neighbor-address" : [
+            {
+                "data" : "10.1.0.3"
+            }
+            ], 
+            "interface-name" : [
+            {
+                "data" : "eth2"
+            }
+            ], 
+            "ospf-neighbor-state" : [
+            {
+                "data" : "Full"
+            }
+            ], 
+            "neighbor-id" : [
+            {
+                "data" : "172.16.0.4"
+            }
+            ], 
+            "neighbor-priority" : [
+            {
+                "data" : "128"
+            }
+            ], 
+            "activity-timer" : [
+            {
+                "data" : "36"
+            }
+            ]
+        }, 
+        {
+            "neighbor-address" : [
+            {
+                "data" : "10.1.0.1"
+            }
+            ], 
+            "interface-name" : [
+            {
+                "data" : "eth2"
+            }
+            ], 
+            "ospf-neighbor-state" : [
+            {
+                "data" : "Full"
+            }
+            ], 
+            "neighbor-id" : [
+            {
+                "data" : "172.16.0.2"
+            }
+            ], 
+            "neighbor-priority" : [
+            {
+                "data" : "128"
+            }
+            ], 
+            "activity-timer" : [
+            {
+                "data" : "36"
+            }
+            ]
+        }
+        ]
+    }
+    ]
+}

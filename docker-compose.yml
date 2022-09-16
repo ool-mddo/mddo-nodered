@@ -21,7 +21,18 @@ services:
     volumes:
       - ./data:/data
       #- node-red-data:/data
-
+      
+  swagger-editor:
+    image: swaggerapi/swagger-editor
+    container_name: "swagger-editor"
+    volumes:
+      - ./data/openapi.yaml:/openapi.yaml
+    ports:
+      - "8001:8080"
+    environment:
+      SWAGGER_FILE: /openapi.yaml
+    networks:
+      - node-red-net
 #volumes:
 #  node-red-data:
 

@@ -1,6 +1,6 @@
 FROM nodered/node-red:latest
 
-RUN npm install node-red-node-swagger
+#RUN npm install node-red-node-swagger
 
 
 EXPOSE 1880
