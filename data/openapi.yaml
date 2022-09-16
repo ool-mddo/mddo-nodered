@@ -1,4 +1,4 @@
-openapi: 3.0.3
+ openapi: 3.0.3
 info:
   title: Swagger Netomox-Containerlab Converter - OpenAPI 3.0
   description: |-
@@ -157,7 +157,7 @@ components:
           items:
             $ref: '#/components/schemas/node'
         "ietf-network-topology:link":
-          type: object
+          type: array
           items:
             $ref: '#/components/schemas/links'          
           
@@ -247,6 +247,26 @@ components:
                 type: string
                 example: "Ethernet1"
     links:
-      type: array
-      items:
-        $ref: '#/components/schemas/p2plink'      
+      type: object
+      properties: 
+        "source":
+          type: object
+          properties: 
+            "source-node":
+              type: string
+              example: "Seg_10.0.0.0/30"     
+            "source-tp":
+              type: string
+              example: "rt1_ge-0/0/0.0"
+        "destination":
+          type: object
+          properties: 
+            "dest-node":
+              type: string
+              example: "rt1"     
+            "dest-tp":
+              type: string
+              example: "ge-0/0/0.0"   
+              
+        
+
