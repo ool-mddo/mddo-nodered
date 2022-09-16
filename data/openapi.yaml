@@ -21,6 +21,7 @@ info:
   version: 1.0.11
 servers:
   - url: http://localhost:1880
+  - url: http://192.168.23.33:1880
 paths:
   /layer_iflist/{layer}:
     post:
