@@ -38,7 +38,7 @@ paths:
           schema:
             type: string
       requestBody:
-        description: Create a new pet in the store
+        description: ""
         content:
           application/json:
             schema:
@@ -66,7 +66,7 @@ paths:
           schema:
             type: string
       requestBody:
-        description: Create a new pet in the store
+        description: ""
         content:
           application/json:
             schema:
@@ -94,7 +94,7 @@ paths:
           schema:
             type: string
       requestBody:
-        description: Create a new pet in the store
+        description: ""
         content:
           application/json:
             schema:
@@ -122,7 +122,7 @@ paths:
           schema:
             type: string
       requestBody:
-        description: Create a new pet in the store
+        description: ""
         content:
           application/json:
             schema:
@@ -134,16 +134,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/layer_iflist'
+                $ref: '#/components/schemas/links'
   /convertlink:
     post:
       tags:
         - Netomox
-      summary: generate p2p link data from json file(netomox)
-      description: "{layer} = 'layer1'or 'layer2'or'layer3' "
+      summary: generate containerlab links data 
+      description: ""
       operationId: "convertlink"
       requestBody:
-        description: Create a new pet in the store
+        description: ""
         content:
           application/json:
             schema:
@@ -155,16 +155,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/layer_iflist'
+                $ref: '#/components/schemas/clablinks'
   /convertlink/batfish:
     post:
       tags:
         - Netomox
-      summary: generate p2p link data from json file(netomox)
-      description: "{layer} = 'layer1'or 'layer2'or'layer3' "
+      summary: generate containerlab links data (for batfish)
+      description: ""
       operationId: "convertlink/batfish"
       requestBody:
-        description: Create a new pet in the store
+        description: ""
         content:
           application/json:
             schema:
@@ -176,16 +176,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/layer_iflist'
+                $ref: '#/components/schemas/batfishlinks'
   /description/batfish:
     post:
       tags:
         - Netomox
-      summary: generate p2p link data from json file(netomox)
-      description: "{layer} = 'layer1'or 'layer2'or'layer3' "
+      summary: generate if description for batfish
+      description: ""
       operationId: "description/batfish"
       requestBody:
-        description: Create a new pet in the store
+        description: ""
         content:
           application/json:
             schema:
@@ -197,13 +197,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/layer_iflist'  
+                $ref: '#/components/schemas/ifdescr_iflist'  
   /ospf_iflist/{area}:
     post:
       tags:
         - Netomox
-      summary: generate p2p link data from json file(netomox)
-      description: "{layer} = 'layer1'or 'layer2'or'layer3' "
+      summary: generate ospf list
+      description: "{area} = 'area0' "
       operationId: "ospf_iflist"
       parameters:
         - name: area
@@ -214,7 +214,7 @@ paths:
             type: string
             example: "area0"
       requestBody:
-        description: Create a new pet in the store
+        description: ""
         content:
           application/json:
             schema:
@@ -225,20 +225,76 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/layer_iflist'
+                $ref: '#/components/schemas/ospf_list'
   /ospf/convertif/batfish:
     post:
       tags:
         - Netomox
-      summary: generate p2p link data from json file(netomox)
-      description: "{layer} = 'layer1'or 'layer2'or'layer3' "
+      summary: generate ospf list for batfish
+      description: ""
       operationId: "/ospf/convertif/batfish"
       requestBody:
-        description: Create a new pet in the store
+        description: ""
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/ospf'            
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ospf_list_batfish'
+  /routetable/{routername}:
+    post:
+      tags:
+        - Netomox
+      summary: Convert crpd route table information to clab format
+      description: "{routername} = 'rt1' or 'rt2' or ... "
+      operationId: "/routetable"
+      parameters:
+        - name: routername
+          in: path
+          description: test
+          required: true
+          schema:
+            type: string
+            example: "rt1"      
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ospf'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/layer_iflist'
+  /ospfneigh/{routername}:
+    post:
+      tags:
+        - Netomox
+      summary: Convert crpd ospf neighbor information to clab format
+      description: "{routername} = 'rt1' or 'rt2' or ... "
+      operationId: "/ospfneigh"
+      parameters:
+        - name: routername
+          in: path
+          description: test
+          required: true
+          schema:
+            type: string
+            example: "rt1"      
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ospf'
       responses:
         '200':
           description: Successful operation
@@ -270,12 +326,12 @@ components:
             "ietf-network-topology:termination-point":
                - "tp-id" :  "ge-0/0/0.0"
         "ietf-network-topology:link":
-          "source": 
-            "source-node": "Seg_10.0.0.0/30"     
-            "source-tp": "rt1_ge-0/0/0.0"
-          "destination":
-            "dest-node": "rt1"     
-            "dest-tp": "ge-0/0/0.0"
+          - "source": 
+              "source-node": "Seg_10.0.0.0/30"     
+              "source-tp": "rt1_ge-0/0/0.0"
+            "destination":
+              "dest-node": "rt1"     
+              "dest-tp": "ge-0/0/0.0"
         
     ospf:
       type: string
@@ -393,5 +449,98 @@ components:
               "clab":
                 type: string
                 example: "Ethernet1"
+    links:
+      type: string
+      example:
+        - - "rt1:ge-0/0/0.0"
+          - "Seg_10.0.0.0/30:rt1_ge-0/0/0.0"
+    clablinks:
+      type: string
+      example:
+        - endpoints:
+          - rt1:eth1
+          - Seg-10.0.0.0-30:eth1
+    batfishlinks:
+      type: string
+      example:
+        - endpoints:
+          - rt1:eth1
+          - Seg-10.0.0.0-30:Ethernet1
+    "ifdescr_iflist":
+      type: array
+      items:
+        $ref: '#/components/schemas/ifdescr'
+    ifdescr:
+      type: object
+      properties:
+        "node":
+          type: object
+          properties:
+            "original":
+              type: string
+              example: "Seg_192.168.0.0/24"
+            "clab":
+              type: string
+              example: "Seg-192.168.0.0-24"
+        "iflist":
+          type: array
+          items:
+            properties:
+              "original":
+                type: string
+                example: "rt1_ge-0/0/0.0"
+              "clab":
+                type: string
+                example: "Ethernet1"
+              "ifDescr": 
+                type: string
+                example: "to_rt1_eth1"
+    ospf_list:
+      type: string
+      example:
+        - node: rt1
+          iflist:
+            - "ge-0/0/0.0"
+          if_attribute:
+          - "network-type": "BROADCAST"
+            "priority": 10
+            "metric": 1
+            "passive": false
+            "timer": 
+              "hello-interval": 10
+              "dead-interval": 40
+              "retransmission-interval": 5
+            "neighbor": 
+              - "router-id": "172.16.0.2"
+                "ip-address": "10.0.0.2/30"             
+          "attributes": 
+            "node-type": "ospf_proc"
+            "router-id": "172.16.0.1"
+            "router-id-source": "static"
+            "log-adjacency-change": false
+            "redistribute":
+              - "protocol": "connected"
+                "metric-type": 2
+              - "protocol": "static"
+                "metric-type": 2
+    ospf_list_batfish:
+      type: string
+      example:
+        - node: rt1
+          iflist:
+            - "eth1"
+          "attributes": 
+            "node-type": "ospf_proc"
+            "router-id": "172.16.0.1"
+            "router-id-source": "static"
+            "log-adjacency-change": false
+            "redistribute":
+              - "protocol": "connected"
+                "metric-type": 2
+              - "protocol": "static"
+                "metric-type": 2
+
+
+
 
 

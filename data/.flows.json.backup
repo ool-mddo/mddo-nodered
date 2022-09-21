@@ -652,7 +652,7 @@
         "type": "http request",
         "z": "1298b4fe103a59c1",
         "name": "request convertif/batfish",
-        "method": "GET",
+        "method": "POST",
         "ret": "txt",
         "paytoqs": "ignore",
         "url": "http://localhost:1880/convertif/batfish/eth",
