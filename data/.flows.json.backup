@@ -1172,12 +1172,189 @@
         "property": "payload",
         "action": "obj",
         "pretty": false,
-        "x": 1050,
+        "x": 1110,
         "y": 1160,
         "wires": [
             [
                 "f0205f63334fa3f5",
                 "d9accaa3855e9110"
+            ]
+        ]
+    },
+    {
+        "id": "4f06b6184b982abb",
+        "type": "http in",
+        "z": "1298b4fe103a59c1",
+        "name": "",
+        "url": "/ospfneigh/:routername",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 140,
+        "y": 1380,
+        "wires": [
+            [
+                "c88dd14fe63d8a3e",
+                "224084a2b4cba0c3"
+            ]
+        ]
+    },
+    {
+        "id": "c88dd14fe63d8a3e",
+        "type": "function",
+        "z": "1298b4fe103a59c1",
+        "name": "generate show route file path",
+        "func": "var filedir = \"/data\"\nflow.set('routername', msg.req.params.routername);\nvar filename = msg.req.params.routername.concat('', \"_ospfneigh.json\")\nmsg.payload = filedir.concat('/',filename)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 1460,
+        "wires": [
+            [
+                "e82bbf51e262b6e0"
+            ]
+        ]
+    },
+    {
+        "id": "e82bbf51e262b6e0",
+        "type": "file in",
+        "z": "1298b4fe103a59c1",
+        "name": "",
+        "filename": "payload",
+        "filenameType": "msg",
+        "format": "",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 540,
+        "y": 1480,
+        "wires": [
+            [
+                "4add4e7d9bda2d20"
+            ]
+        ]
+    },
+    {
+        "id": "4add4e7d9bda2d20",
+        "type": "json",
+        "z": "1298b4fe103a59c1",
+        "name": "",
+        "property": "payload",
+        "action": "str",
+        "pretty": false,
+        "x": 730,
+        "y": 1500,
+        "wires": [
+            [
+                "10bde5e0193b8c8e"
+            ]
+        ]
+    },
+    {
+        "id": "10bde5e0193b8c8e",
+        "type": "function",
+        "z": "1298b4fe103a59c1",
+        "name": "function 13",
+        "func": "flow.set('ospfneigh', msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 910,
+        "y": 1480,
+        "wires": [
+            [
+                "f46af66107572b56"
+            ]
+        ]
+    },
+    {
+        "id": "224084a2b4cba0c3",
+        "type": "http request",
+        "z": "1298b4fe103a59c1",
+        "name": "request /convertif/batfish/eth",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://localhost:1880/convertif/batfish/eth",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "Content-Type",
+                "keyValue": "",
+                "valueType": "application/json",
+                "valueValue": ""
+            }
+        ],
+        "x": 520,
+        "y": 1380,
+        "wires": [
+            [
+                "9e70e152adc5971b"
+            ]
+        ]
+    },
+    {
+        "id": "9e70e152adc5971b",
+        "type": "json",
+        "z": "1298b4fe103a59c1",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 730,
+        "y": 1420,
+        "wires": [
+            [
+                "5c70bd3383eba8ad"
+            ]
+        ]
+    },
+    {
+        "id": "5c70bd3383eba8ad",
+        "type": "function",
+        "z": "1298b4fe103a59c1",
+        "name": "function 14",
+        "func": "flow.set('convertif', msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 890,
+        "y": 1420,
+        "wires": [
+            [
+                "f46af66107572b56"
+            ]
+        ]
+    },
+    {
+        "id": "f46af66107572b56",
+        "type": "function",
+        "z": "1298b4fe103a59c1",
+        "name": "function 15",
+        "func": "var ospfneigh = flow.get('ospfneigh')\nvar convertif = flow.get('convertif')\nvar routername = flow.get('routername')\n\nfor (  var convert_list of convertif ){\n    if (convert_list[\"node\"][\"clab\"] == routername){\n        for (var iflist of convert_list[\"iflist\"]) {\n            var clabif = iflist[\"clab\"]\n            let re = new RegExp(clabif, 'g')\n            var originif = iflist[\"original\"]\n            if (iflist[\"clab\"] != \"lo\") {\n                var tmproutetable = ospfneigh.toString().replace(re, originif)\n            }\n            ospfneigh = tmproutetable\n        }\n    }\n}\nmsg.payload = ospfneigh\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1090,
+        "y": 1420,
+        "wires": [
+            [
+                "e9182d02b05b74e9"
             ]
         ]
     }

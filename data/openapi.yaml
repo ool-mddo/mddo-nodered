@@ -135,6 +135,117 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/layer_iflist'
+  /convertlink:
+    post:
+      tags:
+        - Netomox
+      summary: generate p2p link data from json file(netomox)
+      description: "{layer} = 'layer1'or 'layer2'or'layer3' "
+      operationId: "convertlink"
+      requestBody:
+        description: Create a new pet in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Netomox'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/layer_iflist'
+  /convertlink/batfish:
+    post:
+      tags:
+        - Netomox
+      summary: generate p2p link data from json file(netomox)
+      description: "{layer} = 'layer1'or 'layer2'or'layer3' "
+      operationId: "convertlink/batfish"
+      requestBody:
+        description: Create a new pet in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Netomox'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/layer_iflist'
+  /description/batfish:
+    post:
+      tags:
+        - Netomox
+      summary: generate p2p link data from json file(netomox)
+      description: "{layer} = 'layer1'or 'layer2'or'layer3' "
+      operationId: "description/batfish"
+      requestBody:
+        description: Create a new pet in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Netomox'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/layer_iflist'  
+  /ospf_iflist/{area}:
+    post:
+      tags:
+        - Netomox
+      summary: generate p2p link data from json file(netomox)
+      description: "{layer} = 'layer1'or 'layer2'or'layer3' "
+      operationId: "ospf_iflist"
+      parameters:
+        - name: area
+          in: path
+          description: test
+          required: true
+          schema:
+            type: string
+            example: "area0"
+      requestBody:
+        description: Create a new pet in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ospf'            
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/layer_iflist'
+  /ospf/convertif/batfish:
+    post:
+      tags:
+        - Netomox
+      summary: generate p2p link data from json file(netomox)
+      description: "{layer} = 'layer1'or 'layer2'or'layer3' "
+      operationId: "/ospf/convertif/batfish"
+      requestBody:
+        description: Create a new pet in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ospf'            
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/layer_iflist'  
 components:
   schemas:
     Netomox:
@@ -148,36 +259,71 @@ components:
               items:
                 $ref: '#/components/schemas/network'
     network:
-      type: object
-      properties:
-        "network-id":
-          type: string
-          example: "layer3"
+      type: string
+      example:
+        "network-id": "layer3"
         "node":
-          type: array
-          items:
-            $ref: '#/components/schemas/node'
+          - "node-id": "Seg_10.0.0.0/30"
+            "ietf-network-topology:termination-point":
+             - "tp-id" :  "rt1_ge-0/0/0.0"
+          - "node-id": rt1
+            "ietf-network-topology:termination-point":
+               - "tp-id" :  "ge-0/0/0.0"
         "ietf-network-topology:link":
-          type: array
-          items:
-            $ref: '#/components/schemas/links'          
-          
-    node:
-      type: object
-      properties:
-        "node-id":
-          type: string
-          example: "rt1"
-        "ietf-network-topology:termination-point":
-          type: array
-          items:
-            $ref: '#/components/schemas/tp-id'
-    "tp-id":
-      type: object
-      properties:
-        "tp-id":
-          type: string
-          example: "ge-0/0/0"
+          "source": 
+            "source-node": "Seg_10.0.0.0/30"     
+            "source-tp": "rt1_ge-0/0/0.0"
+          "destination":
+            "dest-node": "rt1"     
+            "dest-tp": "ge-0/0/0.0"
+        
+    ospf:
+      type: string
+      example:
+        "ietf-network:networks":
+            network: 
+            - "network-id": "layer3"
+              "node":
+                - "node-id": "Seg_10.0.0.0/30"
+                  "ietf-network-topology:termination-point":
+                   - "tp-id" :  "rt1_ge-0/0/0.0"
+                - "node-id": rt1
+                  "ietf-network-topology:termination-point":
+                   - "tp-id" :  "ge-0/0/0.0"
+              "ietf-network-topology:link":
+                "source": 
+                  "source-node": "Seg_10.0.0.0/30"     
+                  "source-tp": "rt1_ge-0/0/0.0"
+                "destination":
+                  "dest-node": "rt1"     
+                  "dest-tp": "ge-0/0/0.0"
+            - "network-id": "ospf_area0" 
+              "node":
+                - "node-id": rt1
+                  "ietf-network-topology:termination-point":
+                    - "tp-id" :  "ge-0/0/0.0"
+                      "mddo-topology:ospf-area-termination-point-attributes": 
+                        "network-type": "BROADCAST"
+                        "priority": 10
+                        "metric": 1
+                        "passive": false
+                        "timer": 
+                          "hello-interval": 10
+                          "dead-interval": 40
+                          "retransmission-interval": 5
+                        "neighbor": 
+                          - "router-id": "172.16.0.2"
+                            "ip-address": "10.0.0.2/30"               
+                  "mddo-topology:ospf-area-node-attributes": 
+                    "node-type": "ospf_proc"
+                    "router-id": "172.16.0.1"
+                    "router-id-source": "static"
+                    "log-adjacency-change": false
+                    "redistribute": 
+                      - "protocol": "connected"
+                        "metric-type": 2
+                      - "protocol": "static"
+                        "metric-type": 2
     "layer_iflist":
       type: array
       items:
@@ -194,7 +340,7 @@ components:
             $ref: '#/components/schemas/iflist'
     "iflist":
       type: string
-      example: "ge-0/0/0"
+      example: "ge-0/0/0.0"
     convertif:
       type: array
       items:
@@ -247,27 +393,5 @@ components:
               "clab":
                 type: string
                 example: "Ethernet1"
-    links:
-      type: object
-      properties: 
-        "source":
-          type: object
-          properties: 
-            "source-node":
-              type: string
-              example: "Seg_10.0.0.0/30"     
-            "source-tp":
-              type: string
-              example: "rt1_ge-0/0/0.0"
-        "destination":
-          type: object
-          properties: 
-            "dest-node":
-              type: string
-              example: "rt1"     
-            "dest-tp":
-              type: string
-              example: "ge-0/0/0.0"   
-              
-        
+
 
