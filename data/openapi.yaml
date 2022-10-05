@@ -177,6 +177,48 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/batfishlinks'
+  /batfish_l1topo:
+    post:
+      tags:
+        - Netomox
+      summary: generate containerlab links data (for batfish)
+      description: ""
+      operationId: "l1topo"
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Netomox'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/batfish_l1topo'                
+  /convertlink/batfish/parse:
+    post:
+      tags:
+        - Netomox
+      summary: generate containerlab links data (for batfish)
+      description: ""
+      operationId: "convertlink/batfish/parse"
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Netomox'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/batfishlinks'                
   /description/batfish:
     post:
       tags:
@@ -523,6 +565,16 @@ components:
                 "metric-type": 2
               - "protocol": "static"
                 "metric-type": 2
+    batfish_l1topo:
+      type: string
+      example:
+        edges: 
+        - node1: 
+            hostname: "rt1"
+            interfaceName: "eth1"
+          node2: 
+            hostname: "Seg-10.0.0.0-30"
+            interfaceName: "Ethernet1"    
     ospf_list_batfish:
       type: string
       example:
@@ -539,8 +591,4 @@ components:
                 "metric-type": 2
               - "protocol": "static"
                 "metric-type": 2
-
-
-
-
 

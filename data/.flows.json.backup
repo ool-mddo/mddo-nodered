@@ -190,14 +190,14 @@
         "id": "367703cd9e48d573",
         "type": "function",
         "z": "1298b4fe103a59c1",
-        "name": "convertlist_ospf",
-        "func": "var temp = msg[\"payload\"];\nvar array = [];\nvar loopback_regex = \"lo|Loop\"\nvar clab_loopback = \"lo\"\nfor (var tmpnode of temp) {\n  var array2 = []\n  for (let i = 0; i < tmpnode[\"iflist\"].length; i++) {\n    var convertlist = {};\n    var ifname;\n    if (tmpnode[\"node\"].includes(\"Seg\")){\n        ifname = \"Ethernet\";\n    }\n    else {\n      ifname = msg.req.params.ifname;\n    }\n    convertlist[\"original\"] = tmpnode[\"iflist\"][i];\n    if (tmpnode[\"iflist\"][i].match(loopback_regex)) {\n      convertlist[\"clab\"] = clab_loopback\n    }\n    else {\n      convertlist[\"clab\"] = ifname.concat('', i + 1)\n    }\n    array2.push(convertlist)\n  }\n  array.push({ \"node\": { \"original\": tmpnode[\"node\"], \"clab\": tmpnode[\"node\"].replace(\"/\", \"-\").replace(\"_\", \"-\") }, \"iflist\": array2 })\n}\nmsg.payload = array\nreturn msg;",
+        "name": "convertlist_batfish",
+        "func": "var temp = msg[\"payload\"];\nvar array = [];\nvar loopback_regex = \"lo|Loop\"\nvar batfish_ifphrase = \"ge-0/0/\"\nvar clab_loopback = \"lo\"\nfor (var tmpnode of temp) {\n  var array2 = []\n  var loopback_index = 0\n  for (let i = 0; i < tmpnode[\"iflist\"].length; i++) {\n    var convertlist = {};\n    var ifname;\n    if (tmpnode[\"node\"].includes(\"Seg\")){\n        ifname = \"Ethernet\";\n    }\n    else {\n      ifname = msg.req.params.ifname;\n    }\n    convertlist[\"original\"] = tmpnode[\"iflist\"][i];\n    if (tmpnode[\"iflist\"][i].match(loopback_regex)) {\n      if ( ifname == \"batfish_parse\" ) {\n          convertlist[\"clab\"] = clab_loopback.concat(loopback_index)\n      }\n      else {\n        convertlist[\"clab\"] = clab_loopback\n      }\n      loopback_index = loopback_index + 1\n    }\n    else {\n      if (ifname == \"batfish_parse\") {\n          convertlist[\"clab\"] = batfish_ifphrase.concat('', i)\n      }\n      else {\n        convertlist[\"clab\"] = ifname.concat('', i + 1)\n      }      \n    }\n    array2.push(convertlist)\n  }\n  array.push({ \"node\": { \"original\": tmpnode[\"node\"], \"clab\": tmpnode[\"node\"].replace(\"/\", \"-\").replace(\"_\", \"-\") }, \"iflist\": array2 })\n}\nmsg.payload = array\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 740,
+        "x": 750,
         "y": 260,
         "wires": [
             [
@@ -277,7 +277,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 140,
-        "y": 220,
+        "y": 180,
         "wires": [
             [
                 "1e26736378dd75c4"
@@ -484,8 +484,8 @@
         "property": "payload",
         "action": "obj",
         "pretty": false,
-        "x": 470,
-        "y": 660,
+        "x": 510,
+        "y": 640,
         "wires": [
             [
                 "6228e6354f6f8bdb"
@@ -560,7 +560,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 130,
-        "y": 660,
+        "y": 680,
         "wires": [
             [
                 "1bc76754dc84457f"
@@ -590,8 +590,8 @@
                 "valueValue": ""
             }
         ],
-        "x": 230,
-        "y": 740,
+        "x": 310,
+        "y": 620,
         "wires": [
             [
                 "11d08993db29bc4a"
@@ -608,7 +608,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 110,
-        "y": 840,
+        "y": 900,
         "wires": [
             [
                 "c2ba79ff7c2deb80",
@@ -639,8 +639,8 @@
                 "valueValue": ""
             }
         ],
-        "x": 350,
-        "y": 800,
+        "x": 450,
+        "y": 860,
         "wires": [
             [
                 "46cbcb2b1f47de64"
@@ -670,7 +670,7 @@
                 "valueValue": ""
             }
         ],
-        "x": 330,
+        "x": 430,
         "y": 900,
         "wires": [
             [
@@ -686,8 +686,8 @@
         "property": "payload",
         "action": "obj",
         "pretty": false,
-        "x": 570,
-        "y": 800,
+        "x": 710,
+        "y": 820,
         "wires": [
             [
                 "9f71e05184fee10f"
@@ -702,8 +702,8 @@
         "property": "payload",
         "action": "obj",
         "pretty": false,
-        "x": 550,
-        "y": 920,
+        "x": 690,
+        "y": 900,
         "wires": [
             [
                 "6ab21a0c2ee64da1"
@@ -721,7 +721,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 720,
+        "x": 880,
         "y": 800,
         "wires": [
             [
@@ -740,8 +740,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 700,
-        "y": 920,
+        "x": 820,
+        "y": 940,
         "wires": [
             [
                 "d97d9e9700cddabb"
@@ -759,7 +759,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 870,
+        "x": 910,
         "y": 880,
         "wires": [
             [
@@ -810,8 +810,8 @@
         "method": "post",
         "upload": false,
         "swaggerDoc": "",
-        "x": 130,
-        "y": 1000,
+        "x": 110,
+        "y": 1060,
         "wires": [
             [
                 "4d1dac8f8467239e",
@@ -1029,7 +1029,7 @@
             }
         ],
         "x": 440,
-        "y": 1160,
+        "y": 1200,
         "wires": [
             [
                 "0100ae1cd000598a"
@@ -1355,6 +1355,183 @@
         "wires": [
             [
                 "e9182d02b05b74e9"
+            ]
+        ]
+    },
+    {
+        "id": "0d4809571fdec907",
+        "type": "http in",
+        "z": "1298b4fe103a59c1",
+        "name": "",
+        "url": "convertlink/batfish/parse",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 740,
+        "wires": [
+            [
+                "dbe408ca4de79bd5"
+            ]
+        ]
+    },
+    {
+        "id": "dbe408ca4de79bd5",
+        "type": "http request",
+        "z": "1298b4fe103a59c1",
+        "name": "request convertif batfish_parse",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://localhost:1880/convertif/batfish/batfish_parse",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "Content-Type",
+                "keyValue": "",
+                "valueType": "application/json",
+                "valueValue": ""
+            }
+        ],
+        "x": 410,
+        "y": 760,
+        "wires": [
+            [
+                "11d08993db29bc4a"
+            ]
+        ]
+    },
+    {
+        "id": "5315fb85b2447063",
+        "type": "http in",
+        "z": "1298b4fe103a59c1",
+        "name": "",
+        "url": "description/batfish/parse",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 800,
+        "wires": [
+            [
+                "70f7cb2db33c4115",
+                "5698c202565af3a0"
+            ]
+        ]
+    },
+    {
+        "id": "70f7cb2db33c4115",
+        "type": "http request",
+        "z": "1298b4fe103a59c1",
+        "name": "request convertlink/batfish/parse",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://localhost:1880/convertlink/batfish/parse",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "Content-Type",
+                "keyValue": "",
+                "valueType": "application/json",
+                "valueValue": ""
+            }
+        ],
+        "x": 470,
+        "y": 800,
+        "wires": [
+            [
+                "46cbcb2b1f47de64"
+            ]
+        ]
+    },
+    {
+        "id": "5698c202565af3a0",
+        "type": "http request",
+        "z": "1298b4fe103a59c1",
+        "name": "request convertif/batfish",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://localhost:1880/convertif/batfish/batfish_parse",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "Content-Type",
+                "keyValue": "",
+                "valueType": "application/json",
+                "valueValue": ""
+            }
+        ],
+        "x": 250,
+        "y": 980,
+        "wires": [
+            [
+                "af95c45caf560776"
+            ]
+        ]
+    },
+    {
+        "id": "8c48059a8e172206",
+        "type": "http in",
+        "z": "1298b4fe103a59c1",
+        "name": "",
+        "url": "/ospf/convertif/batfish/parse",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 1120,
+        "wires": [
+            [
+                "4d1dac8f8467239e",
+                "6878f2dbf6cdf130"
+            ]
+        ]
+    },
+    {
+        "id": "6878f2dbf6cdf130",
+        "type": "http request",
+        "z": "1298b4fe103a59c1",
+        "name": "request /convertif/batfish/batfish_parse",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://localhost:1880/convertif/batfish/batfish_parse",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "Content-Type",
+                "keyValue": "",
+                "valueType": "application/json",
+                "valueValue": ""
+            }
+        ],
+        "x": 450,
+        "y": 1140,
+        "wires": [
+            [
+                "767067f3c6668495"
             ]
         ]
     }
