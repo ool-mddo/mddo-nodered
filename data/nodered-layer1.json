@@ -1,0 +1,114 @@
+{
+  "edges": [
+    {
+      "node1": {
+        "hostname": "rt1",
+        "interfaceName": "eth1"
+      },
+      "node2": {
+        "hostname": "Seg-203.0.113.0-24",
+        "interfaceName": "Ethernet1"
+      }
+    },
+    {
+      "node1": {
+        "hostname": "serv1",
+        "interfaceName": "eth1"
+      },
+      "node2": {
+        "hostname": "Seg-203.0.113.0-24",
+        "interfaceName": "Ethernet2"
+      }
+    },
+    {
+      "node1": {
+        "hostname": "rt1",
+        "interfaceName": "eth2"
+      },
+      "node2": {
+        "hostname": "Seg-10.0.0.0-30",
+        "interfaceName": "Ethernet1"
+      }
+    },
+    {
+      "node1": {
+        "hostname": "rt2",
+        "interfaceName": "eth1"
+      },
+      "node2": {
+        "hostname": "Seg-10.0.0.0-30",
+        "interfaceName": "Ethernet2"
+      }
+    },
+    {
+      "node1": {
+        "hostname": "rt1",
+        "interfaceName": "eth3"
+      },
+      "node2": {
+        "hostname": "Seg-10.0.1.0-30",
+        "interfaceName": "Ethernet1"
+      }
+    },
+    {
+      "node1": {
+        "hostname": "rt3",
+        "interfaceName": "eth1"
+      },
+      "node2": {
+        "hostname": "Seg-10.0.1.0-30",
+        "interfaceName": "Ethernet2"
+      }
+    },
+    {
+      "node1": {
+        "hostname": "rt3",
+        "interfaceName": "eth2"
+      },
+      "node2": {
+        "hostname": "Seg-10.1.0.0-24",
+        "interfaceName": "Ethernet1"
+      }
+    },
+    {
+      "node1": {
+        "hostname": "rt2",
+        "interfaceName": "eth2"
+      },
+      "node2": {
+        "hostname": "Seg-10.1.0.0-24",
+        "interfaceName": "Ethernet2"
+      }
+    },
+    {
+      "node1": {
+        "hostname": "rt4",
+        "interfaceName": "eth1"
+      },
+      "node2": {
+        "hostname": "Seg-10.1.0.0-24",
+        "interfaceName": "Ethernet3"
+      }
+    },
+    {
+      "node1": {
+        "hostname": "rt4",
+        "interfaceName": "eth2"
+      },
+      "node2": {
+        "hostname": "Seg-192.168.0.0-24",
+        "interfaceName": "Ethernet1"
+      }
+    },
+    {
+      "node1": {
+        "hostname": "serv2",
+        "interfaceName": "eth1"
+      },
+      "node2": {
+        "hostname": "Seg-192.168.0.0-24",
+        "interfaceName": "Ethernet2"
+      }
+    }
+  ]
+}
