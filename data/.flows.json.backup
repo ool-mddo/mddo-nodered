@@ -1597,7 +1597,7 @@
         "type": "function",
         "z": "1298b4fe103a59c1",
         "name": "function 16",
-        "func": "var body = msg.payload\nvar returnvalues = []\nfor (var link_list of body) {\n    var node1 = link_list[\"endpoints\"][0].split(':')\n    var node2 = link_list[\"endpoints\"][1].split(':')\n    var result = {}\n    result[\"edges\"] = {}\n    result[\"edges\"][\"node1\"] = {}\n    result[\"edges\"][\"node1\"][\"hostname\"] = node1[0]\n    result[\"edges\"][\"node1\"][\"interfaceName\"] = node1[1]\n    result[\"edges\"][\"node2\"] = {}\n    result[\"edges\"][\"node2\"][\"hostname\"] = node2[0]\n    result[\"edges\"][\"node2\"][\"interfaceName\"] = node2[1]\n    returnvalues.push(result)\n}\nmsg.payload = returnvalues\n\nreturn msg;",
+        "func": "var body = msg.payload\nvar returnvalues = {}\nreturnvalues[\"edges\"] = []\nfor (var link_list of body) {\n    var node1 = link_list[\"endpoints\"][0].split(':')\n    var node2 = link_list[\"endpoints\"][1].split(':')\n    var result = {}\n    // @ts-ignore\n    result = { \"node1\": {}, \"node2\": {}}\n    result[\"node1\"][\"hostname\"] = node1[0]\n    result[\"node1\"][\"interfaceName\"] = node1[1]\n    result[\"node2\"][\"hostname\"] = node2[0]\n    result[\"node2\"][\"interfaceName\"] = node2[1]\n    returnvalues[\"edges\"].push(result)\n}\nmsg.payload = returnvalues\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",

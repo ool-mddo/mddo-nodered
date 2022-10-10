@@ -574,7 +574,13 @@ components:
             interfaceName: "eth1"
           node2: 
             hostname: "Seg-10.0.0.0-30"
-            interfaceName: "Ethernet1"    
+            interfaceName: "Ethernet1"
+        - node1: 
+            hostname: "Seg-10.0.0.0-30"
+            interfaceName: "Ethernet1"          
+          node2: 
+            hostname: "rt1"
+            interfaceName: "eth1"             
     ospf_list_batfish:
       type: string
       example:
@@ -591,3 +597,4 @@ components:
                 "metric-type": 2
               - "protocol": "static"
                 "metric-type": 2
+
