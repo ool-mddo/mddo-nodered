@@ -485,7 +485,7 @@
         "action": "obj",
         "pretty": false,
         "x": 510,
-        "y": 640,
+        "y": 600,
         "wires": [
             [
                 "6228e6354f6f8bdb"
@@ -522,8 +522,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 600,
-        "y": 720,
+        "x": 640,
+        "y": 680,
         "wires": [
             [
                 "62f2a6b125252f6e"
@@ -559,11 +559,12 @@
         "method": "post",
         "upload": false,
         "swaggerDoc": "",
-        "x": 130,
+        "x": 110,
         "y": 680,
         "wires": [
             [
-                "1bc76754dc84457f"
+                "1bc76754dc84457f",
+                "67465003b201e8e4"
             ]
         ]
     },
@@ -590,7 +591,7 @@
                 "valueValue": ""
             }
         ],
-        "x": 310,
+        "x": 300,
         "y": 620,
         "wires": [
             [
@@ -639,11 +640,11 @@
                 "valueValue": ""
             }
         ],
-        "x": 450,
-        "y": 860,
+        "x": 390,
+        "y": 880,
         "wires": [
             [
-                "46cbcb2b1f47de64"
+                "3012cda4976c7d09"
             ]
         ]
     },
@@ -670,8 +671,8 @@
                 "valueValue": ""
             }
         ],
-        "x": 430,
-        "y": 900,
+        "x": 390,
+        "y": 940,
         "wires": [
             [
                 "af95c45caf560776"
@@ -1597,7 +1598,7 @@
         "type": "function",
         "z": "1298b4fe103a59c1",
         "name": "function 16",
-        "func": "var body = msg.payload\nvar returnvalues = {}\nreturnvalues[\"edges\"] = []\nfor (var link_list of body) {\n    var node1 = link_list[\"endpoints\"][0].split(':')\n    var node2 = link_list[\"endpoints\"][1].split(':')\n    var result = {}\n    // @ts-ignore\n    result = { \"node1\": {}, \"node2\": {}}\n    result[\"node1\"][\"hostname\"] = node1[0]\n    result[\"node1\"][\"interfaceName\"] = node1[1]\n    result[\"node2\"][\"hostname\"] = node2[0]\n    result[\"node2\"][\"interfaceName\"] = node2[1]\n    returnvalues[\"edges\"].push(result)\n}\nmsg.payload = returnvalues\n\nreturn msg;",
+        "func": "var body = msg.payload\nvar returnvalues = {}\nreturnvalues[\"edges\"] = []\nfor (var link_list of body) {\n    var node1 = link_list[\"endpoints\"][0].split(':')\n    var node2 = link_list[\"endpoints\"][1].split(':')\n    var result = {}\n    result = { \"node1\": {}, \"node2\": {}}\n    result[\"node1\"][\"hostname\"] = node1[0]\n    result[\"node1\"][\"interfaceName\"] = node1[1]\n    result[\"node2\"][\"hostname\"] = node2[0]\n    result[\"node2\"][\"interfaceName\"] = node2[1]\n    returnvalues[\"edges\"].push(result)\n    //reverse link info\n    result = { \"node1\": {}, \"node2\": {} }\n    result[\"node1\"][\"hostname\"] = node2[0]\n    result[\"node1\"][\"interfaceName\"] = node2[1]\n    result[\"node2\"][\"hostname\"] = node1[0]\n    result[\"node2\"][\"interfaceName\"] = node1[1]\n    returnvalues[\"edges\"].push(result)\n\n}\nmsg.payload = returnvalues\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1623,5 +1624,38 @@
         "x": 770,
         "y": 1600,
         "wires": []
+    },
+    {
+        "id": "3012cda4976c7d09",
+        "type": "switch",
+        "z": "1298b4fe103a59c1",
+        "name": "http response",
+        "property": "statusCode",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "200",
+                "vt": "str"
+            },
+            {
+                "t": "neq",
+                "v": "200",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 580,
+        "y": 840,
+        "wires": [
+            [
+                "46cbcb2b1f47de64"
+            ],
+            [
+                "c2ba79ff7c2deb80"
+            ]
+        ]
     }
 ]
