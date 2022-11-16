@@ -103,7 +103,7 @@
         "type": "function",
         "z": "1298b4fe103a59c1",
         "name": "convertlist",
-        "func": "var temp = msg[\"payload\"];\nvar array = [];\nfor (var tmpnode of temp) {\n  var array2 = []\n  for (let i = 0; i < tmpnode[\"iflist\"].length; i++) {\n    var convertlist = {};\n    var ifname;\n\n    ifname = msg.req.params.ifname;\n    convertlist[\"original\"] = tmpnode[\"iflist\"][i];\n    convertlist[\"clab\"] = ifname.concat('', i+1)\n    array2.push(convertlist)\n  }\n  array.push({ \"node\": { \"original\": tmpnode[\"node\"], \"clab\": tmpnode[\"node\"].replace(\"/\", \"-\").replace(\"_\", \"-\")   }, \"iflist\": array2 })\n}\nmsg.payload = array\nreturn msg;",
+        "func": "var temp = msg[\"payload\"];\nvar array = [];\nfor (var tmpnode of temp) {\n  var array2 = []\n  for (let i = 0; i < tmpnode[\"iflist\"].length; i++) {\n    var convertlist = {};\n    var ifname;\n\n    ifname = msg.req.params.ifname;\n    convertlist[\"original\"] = tmpnode[\"iflist\"][i];\n    convertlist[\"clab\"] = ifname.concat('', i+1)\n    array2.push(convertlist)\n  }\n  array.push({ \"node\": { \"original\": tmpnode[\"node\"], \"clab\": tmpnode[\"node\"].replace(\"/\", \"-\").replace(\"_\", \"-\").replace(\"+\", \"\")   }, \"iflist\": array2 })\n}\nmsg.payload = array\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -644,7 +644,7 @@
         "y": 880,
         "wires": [
             [
-                "3012cda4976c7d09"
+                "46cbcb2b1f47de64"
             ]
         ]
     },
@@ -1624,38 +1624,5 @@
         "x": 770,
         "y": 1600,
         "wires": []
-    },
-    {
-        "id": "3012cda4976c7d09",
-        "type": "switch",
-        "z": "1298b4fe103a59c1",
-        "name": "http response",
-        "property": "statusCode",
-        "propertyType": "msg",
-        "rules": [
-            {
-                "t": "eq",
-                "v": "200",
-                "vt": "str"
-            },
-            {
-                "t": "neq",
-                "v": "200",
-                "vt": "str"
-            }
-        ],
-        "checkall": "true",
-        "repair": false,
-        "outputs": 2,
-        "x": 580,
-        "y": 840,
-        "wires": [
-            [
-                "46cbcb2b1f47de64"
-            ],
-            [
-                "c2ba79ff7c2deb80"
-            ]
-        ]
     }
 ]
