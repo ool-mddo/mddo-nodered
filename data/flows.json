@@ -8,14 +8,6 @@
         "env": []
     },
     {
-        "id": "1bb105999f7bf48d",
-        "type": "tab",
-        "label": "Flow 1",
-        "disabled": false,
-        "info": "",
-        "env": []
-    },
-    {
         "id": "da715f9bdd546276",
         "type": "http response",
         "z": "1298b4fe103a59c1",
@@ -103,7 +95,7 @@
         "type": "function",
         "z": "1298b4fe103a59c1",
         "name": "convertlist",
-        "func": "var temp = msg[\"payload\"];\nvar array = [];\nfor (var tmpnode of temp) {\n  var array2 = []\n  for (let i = 0; i < tmpnode[\"iflist\"].length; i++) {\n    var convertlist = {};\n    var ifname;\n\n    ifname = msg.req.params.ifname;\n    convertlist[\"original\"] = tmpnode[\"iflist\"][i];\n    convertlist[\"clab\"] = ifname.concat('', i+1)\n    array2.push(convertlist)\n  }\n  array.push({ \"node\": { \"original\": tmpnode[\"node\"], \"clab\": tmpnode[\"node\"].replace(\"/\", \"-\").replace(\"_\", \"-\").replace(\"+\", \"\")   }, \"iflist\": array2 })\n}\nmsg.payload = array\nreturn msg;",
+        "func": "var temp = msg[\"payload\"];\nvar array = [];\nfor (var tmpnode of temp) {\n  var array2 = []\n  for (let i = 0; i < tmpnode[\"iflist\"].length; i++) {\n    var convertlist = {};\n    var ifname;\n\n    ifname = msg.req.params.ifname;\n    convertlist[\"original\"] = tmpnode[\"iflist\"][i];\n    convertlist[\"clab\"] = ifname.concat('', i+1)\n    array2.push(convertlist)\n  }\n  array.push({ \"node\": { \"original\": tmpnode[\"node\"], \"clab\": tmpnode[\"node\"].replace(\"/\", \"-\").replace(\"_\", \"-\").replace(\"+\", \"-\")   }, \"iflist\": array2 })\n}\nmsg.payload = array\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
