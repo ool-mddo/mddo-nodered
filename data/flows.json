@@ -331,7 +331,7 @@
         "y": 520,
         "wires": [
             [
-                "b11b174293d39bd1"
+                "67d8bb5d5054b3c3"
             ]
         ]
     },
@@ -614,8 +614,7 @@
         "y": 600,
         "wires": [
             [
-                "1bc76754dc84457f",
-                "1d2f322dda67a8a8"
+                "1bc76754dc84457f"
             ]
         ]
     },
@@ -635,6 +634,25 @@
         "wires": [
             [
                 "67465003b201e8e4"
+            ]
+        ]
+    },
+    {
+        "id": "67d8bb5d5054b3c3",
+        "type": "function",
+        "z": "1298b4fe103a59c1",
+        "name": "store payload",
+        "func": "flow.set('json-data', msg.payload);\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 200,
+        "y": 460,
+        "wires": [
+            [
+                "1d2f322dda67a8a8"
             ]
         ]
     },
