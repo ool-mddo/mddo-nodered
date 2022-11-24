@@ -2,23 +2,34 @@
     {
         "id": "1298b4fe103a59c1",
         "type": "tab",
-        "label": "フロー 1",
+        "label": "Layer3-IF",
         "disabled": false,
         "info": "",
         "env": []
     },
     {
-        "id": "da715f9bdd546276",
-        "type": "http response",
-        "z": "1298b4fe103a59c1",
-        "name": "",
-        "statusCode": "",
-        "headers": {
-            "content-type": "application/json"
-        },
-        "x": 950,
-        "y": 80,
-        "wires": []
+        "id": "20ca6f2edc9b2431",
+        "type": "tab",
+        "label": "Layer3-Description&l1topo",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "c97bb4afad13ec17",
+        "type": "tab",
+        "label": "OSPF",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "b906a794ad49ed2f",
+        "type": "tab",
+        "label": "Status",
+        "disabled": false,
+        "info": "",
+        "env": []
     },
     {
         "id": "13feff8e4915cc17",
@@ -35,45 +46,8 @@
         "y": 80,
         "wires": [
             [
-                "da715f9bdd546276",
-                "98d4fe11fefcdde5"
-            ]
-        ]
-    },
-    {
-        "id": "98d4fe11fefcdde5",
-        "type": "debug",
-        "z": "1298b4fe103a59c1",
-        "name": "debug 1",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 960,
-        "y": 220,
-        "wires": []
-    },
-    {
-        "id": "6d2b7d4489774df7",
-        "type": "function",
-        "z": "1298b4fe103a59c1",
-        "name": "ospf_parse",
-        "func": "var temp = msg[\"payload\"][\"ietf-network:networks\"][\"network\"];\nvar area = msg.req.params.area\nvar dict = {};\nvar array = [];\nfor (const ospfdict of temp){\n    var ospfarea = \"ospf\"\n    if (ospfdict[\"network-id\"] == ospfarea.concat('_', area)) {\n        for (const item of ospfdict[\"node\"]) {\n            if (item[\"mddo-topology:ospf-area-node-attributes\"][\"node-type\"] == \"ospf_proc\") {\n                var tpid = [];\n                var attribute = []\n                for (const item2 of item[\"ietf-network-topology:termination-point\"] ) {\n                    tpid.push(item2[\"tp-id\"]);\n                    attribute.push(item2[\"mddo-topology:ospf-area-termination-point-attributes\"]);\n                }              \n                dict = { \"node\": item[\"node-id\"], \"iflist\": tpid, \"if_attribute\": attribute, \"attributes\": item[\"mddo-topology:ospf-area-node-attributes\"] }\n                array.push(dict)\n\n            }\n        }\n    }\n}\n\nmsg.payload = array;\nreturn msg;\n\n\n",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 750,
-        "y": 140,
-        "wires": [
-            [
-                "da715f9bdd546276",
-                "98d4fe11fefcdde5"
+                "cf326f38384d9e4f",
+                "21c8d4f440c53611"
             ]
         ]
     },
@@ -86,8 +60,8 @@
         "headers": {
             "content-type": "application/json"
         },
-        "x": 990,
-        "y": 520,
+        "x": 1150,
+        "y": 360,
         "wires": []
     },
     {
@@ -106,25 +80,9 @@
         "wires": [
             [
                 "cf326f38384d9e4f",
-                "27bffccc4143dcf8"
+                "5b0aad38ad68eb9e"
             ]
         ]
-    },
-    {
-        "id": "27bffccc4143dcf8",
-        "type": "debug",
-        "z": "1298b4fe103a59c1",
-        "name": "debug 5",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1000,
-        "y": 660,
-        "wires": []
     },
     {
         "id": "3f6372cf52ecb3fa",
@@ -134,7 +92,7 @@
         "property": "payload",
         "action": "",
         "pretty": false,
-        "x": 590,
+        "x": 630,
         "y": 300,
         "wires": [
             [
@@ -158,7 +116,7 @@
         "wires": [
             [
                 "cf326f38384d9e4f",
-                "27bffccc4143dcf8"
+                "9770a788881edad4"
             ]
         ]
     },
@@ -189,11 +147,12 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 750,
-        "y": 260,
+        "x": 790,
+        "y": 240,
         "wires": [
             [
-                "cf326f38384d9e4f"
+                "cf326f38384d9e4f",
+                "5b0aad38ad68eb9e"
             ]
         ]
     },
@@ -205,26 +164,13 @@
         "property": "payload",
         "action": "",
         "pretty": false,
-        "x": 590,
-        "y": 220,
+        "x": 650,
+        "y": 160,
         "wires": [
             [
                 "367703cd9e48d573"
             ]
         ]
-    },
-    {
-        "id": "f0205f63334fa3f5",
-        "type": "http response",
-        "z": "1298b4fe103a59c1",
-        "name": "",
-        "statusCode": "",
-        "headers": {
-            "content-type": "application/json"
-        },
-        "x": 1150,
-        "y": 940,
-        "wires": []
     },
     {
         "id": "4702d77874e748ce",
@@ -269,7 +215,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 140,
-        "y": 180,
+        "y": 140,
         "wires": [
             [
                 "1e26736378dd75c4"
@@ -299,8 +245,8 @@
                 "valueValue": ""
             }
         ],
-        "x": 410,
-        "y": 220,
+        "x": 450,
+        "y": 160,
         "wires": [
             [
                 "d5e491acc693be14"
@@ -381,12 +327,11 @@
         "method": "post",
         "upload": false,
         "swaggerDoc": "",
-        "x": 120,
-        "y": 480,
+        "x": 100,
+        "y": 520,
         "wires": [
             [
-                "67465003b201e8e4",
-                "1d2f322dda67a8a8"
+                "b11b174293d39bd1"
             ]
         ]
     },
@@ -413,11 +358,11 @@
                 "valueValue": ""
             }
         ],
-        "x": 290,
-        "y": 580,
+        "x": 410,
+        "y": 480,
         "wires": [
             [
-                "11d08993db29bc4a"
+                "6228e6354f6f8bdb"
             ]
         ]
     },
@@ -444,8 +389,8 @@
                 "valueValue": ""
             }
         ],
-        "x": 370,
-        "y": 480,
+        "x": 750,
+        "y": 540,
         "wires": [
             [
                 "610a86fdfa0bca6c"
@@ -460,8 +405,8 @@
         "property": "payload",
         "action": "obj",
         "pretty": false,
-        "x": 550,
-        "y": 500,
+        "x": 910,
+        "y": 540,
         "wires": [
             [
                 "6157f188ba1a8854"
@@ -476,8 +421,8 @@
         "property": "payload",
         "action": "obj",
         "pretty": false,
-        "x": 510,
-        "y": 600,
+        "x": 470,
+        "y": 740,
         "wires": [
             [
                 "6228e6354f6f8bdb"
@@ -495,8 +440,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 680,
-        "y": 540,
+        "x": 920,
+        "y": 600,
         "wires": [
             [
                 "62f2a6b125252f6e"
@@ -514,11 +459,11 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 640,
-        "y": 680,
+        "x": 560,
+        "y": 640,
         "wires": [
             [
-                "62f2a6b125252f6e"
+                "91af0aceeaf4a8af"
             ]
         ]
     },
@@ -533,12 +478,12 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 830,
-        "y": 740,
+        "x": 950,
+        "y": 680,
         "wires": [
             [
                 "cf326f38384d9e4f",
-                "27bffccc4143dcf8"
+                "eecaf615c36c6c0a"
             ]
         ]
     },
@@ -552,11 +497,10 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 110,
-        "y": 680,
+        "y": 660,
         "wires": [
             [
-                "1bc76754dc84457f",
-                "67465003b201e8e4"
+                "b11b174293d39bd1"
             ]
         ]
     },
@@ -583,8 +527,8 @@
                 "valueValue": ""
             }
         ],
-        "x": 300,
-        "y": 620,
+        "x": 310,
+        "y": 720,
         "wires": [
             [
                 "11d08993db29bc4a"
@@ -592,27 +536,142 @@
         ]
     },
     {
+        "id": "21c8d4f440c53611",
+        "type": "debug",
+        "z": "1298b4fe103a59c1",
+        "name": "debug 9",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1020,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "5b0aad38ad68eb9e",
+        "type": "debug",
+        "z": "1298b4fe103a59c1",
+        "name": "debug 10",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1080,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "9770a788881edad4",
+        "type": "debug",
+        "z": "1298b4fe103a59c1",
+        "name": "debug 11",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 880,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "eecaf615c36c6c0a",
+        "type": "debug",
+        "z": "1298b4fe103a59c1",
+        "name": "debug 12",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1060,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "b11b174293d39bd1",
+        "type": "function",
+        "z": "1298b4fe103a59c1",
+        "name": "store payload",
+        "func": "flow.set('json-data', msg.payload);\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 600,
+        "wires": [
+            [
+                "1bc76754dc84457f",
+                "1d2f322dda67a8a8"
+            ]
+        ]
+    },
+    {
+        "id": "91af0aceeaf4a8af",
+        "type": "function",
+        "z": "1298b4fe103a59c1",
+        "name": "restore payload",
+        "func": "var jsondata = flow.get('json-data')\nmsg.payload = jsondata\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 680,
+        "y": 720,
+        "wires": [
+            [
+                "67465003b201e8e4"
+            ]
+        ]
+    },
+    {
+        "id": "f0205f63334fa3f5",
+        "type": "http response",
+        "z": "20ca6f2edc9b2431",
+        "name": "",
+        "statusCode": "",
+        "headers": {
+            "content-type": "application/json"
+        },
+        "x": 1290,
+        "y": 240,
+        "wires": []
+    },
+    {
         "id": "86835c715d468c21",
         "type": "http in",
-        "z": "1298b4fe103a59c1",
+        "z": "20ca6f2edc9b2431",
         "name": "",
         "url": "description/batfish",
         "method": "post",
         "upload": false,
         "swaggerDoc": "",
-        "x": 110,
-        "y": 900,
+        "x": 130,
+        "y": 60,
         "wires": [
             [
-                "c2ba79ff7c2deb80",
-                "10442146bec537d4"
+                "3aef46e17bfc3371"
             ]
         ]
     },
     {
         "id": "c2ba79ff7c2deb80",
         "type": "http request",
-        "z": "1298b4fe103a59c1",
+        "z": "20ca6f2edc9b2431",
         "name": "request convertlink/batfish",
         "method": "POST",
         "ret": "txt",
@@ -632,8 +691,8 @@
                 "valueValue": ""
             }
         ],
-        "x": 390,
-        "y": 880,
+        "x": 790,
+        "y": 80,
         "wires": [
             [
                 "46cbcb2b1f47de64"
@@ -643,7 +702,7 @@
     {
         "id": "10442146bec537d4",
         "type": "http request",
-        "z": "1298b4fe103a59c1",
+        "z": "20ca6f2edc9b2431",
         "name": "request convertif/batfish",
         "method": "POST",
         "ret": "txt",
@@ -663,8 +722,8 @@
                 "valueValue": ""
             }
         ],
-        "x": 390,
-        "y": 940,
+        "x": 250,
+        "y": 200,
         "wires": [
             [
                 "af95c45caf560776"
@@ -674,13 +733,13 @@
     {
         "id": "46cbcb2b1f47de64",
         "type": "json",
-        "z": "1298b4fe103a59c1",
+        "z": "20ca6f2edc9b2431",
         "name": "",
         "property": "payload",
         "action": "obj",
         "pretty": false,
-        "x": 710,
-        "y": 820,
+        "x": 890,
+        "y": 160,
         "wires": [
             [
                 "9f71e05184fee10f"
@@ -690,13 +749,13 @@
     {
         "id": "af95c45caf560776",
         "type": "json",
-        "z": "1298b4fe103a59c1",
+        "z": "20ca6f2edc9b2431",
         "name": "",
         "property": "payload",
         "action": "obj",
         "pretty": false,
-        "x": 690,
-        "y": 900,
+        "x": 390,
+        "y": 60,
         "wires": [
             [
                 "6ab21a0c2ee64da1"
@@ -706,7 +765,7 @@
     {
         "id": "9f71e05184fee10f",
         "type": "function",
-        "z": "1298b4fe103a59c1",
+        "z": "20ca6f2edc9b2431",
         "name": "function 6",
         "func": "flow.set('convertlink', msg.payload);\nreturn msg;",
         "outputs": 1,
@@ -714,8 +773,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 880,
-        "y": 800,
+        "x": 980,
+        "y": 220,
         "wires": [
             [
                 "d97d9e9700cddabb"
@@ -725,7 +784,7 @@
     {
         "id": "6ab21a0c2ee64da1",
         "type": "function",
-        "z": "1298b4fe103a59c1",
+        "z": "20ca6f2edc9b2431",
         "name": "function 7",
         "func": "flow.set('convertif', msg.payload);\nreturn msg;",
         "outputs": 1,
@@ -733,18 +792,18 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 820,
-        "y": 940,
+        "x": 500,
+        "y": 140,
         "wires": [
             [
-                "d97d9e9700cddabb"
+                "50f858fb01dda2ca"
             ]
         ]
     },
     {
         "id": "d97d9e9700cddabb",
         "type": "function",
-        "z": "1298b4fe103a59c1",
+        "z": "20ca6f2edc9b2431",
         "name": "description",
         "func": "var tmpnodes = flow.get('convertif')\nvar convertlink = flow.get('convertlink')\nvar descrlist = []\nfor (var targetnode of tmpnodes ) {\n    for (var interface of targetnode[\"iflist\"]) {\n        for ( var tmplink of convertlink) {\n            for (var tmpif of targetnode.iflist){\n                var split_endpoint = tmplink.endpoints[0].split(\":\")\n                var split_endpoint2 = tmplink.endpoints[1].split(\":\")\n                if (split_endpoint[0] == targetnode.node.clab && split_endpoint[1].includes(interface.clab)) {\n                    var to = \"to\"\n                    interface[\"ifDescr\"] = to.concat('_', tmplink.endpoints[1].replace(\":\", \"_\"))\n                }                \n                else if (split_endpoint2[0] == targetnode.node.clab && split_endpoint2[1].includes(interface.clab)) {\n                    var to = \"to\"\n                    interface[\"ifDescr\"] = to.concat('_', tmplink.endpoints[0].replace(\":\", \"_\"))\n                }\n            }\n\n        }\n    }\n}\n\nmsg.payload = tmpnodes\nreturn msg;",
         "outputs": 1,
@@ -752,8 +811,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 910,
-        "y": 880,
+        "x": 1090,
+        "y": 60,
         "wires": [
             [
                 "f0205f63334fa3f5",
@@ -762,60 +821,186 @@
         ]
     },
     {
-        "id": "26999ae610120c3f",
+        "id": "d9accaa3855e9110",
+        "type": "debug",
+        "z": "20ca6f2edc9b2431",
+        "name": "debug 6",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1220,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "5c5263734f9d734e",
         "type": "http in",
-        "z": "1298b4fe103a59c1",
+        "z": "20ca6f2edc9b2431",
         "name": "",
-        "url": "/ospf_iflist/:area",
+        "url": "batfish_l1topo",
         "method": "post",
         "upload": false,
         "swaggerDoc": "",
-        "x": 120,
-        "y": 120,
+        "x": 130,
+        "y": 360,
         "wires": [
             [
-                "db948e0291dbe83c"
+                "8621c04c4e152418"
             ]
         ]
     },
     {
-        "id": "db948e0291dbe83c",
+        "id": "8621c04c4e152418",
+        "type": "http request",
+        "z": "20ca6f2edc9b2431",
+        "name": "request convertlink/batfish",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://localhost:1880/convertlink/batfish",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 370,
+        "y": 320,
+        "wires": [
+            [
+                "676b08a329453c8b"
+            ]
+        ]
+    },
+    {
+        "id": "676b08a329453c8b",
         "type": "json",
-        "z": "1298b4fe103a59c1",
+        "z": "20ca6f2edc9b2431",
         "name": "",
         "property": "payload",
         "action": "obj",
         "pretty": false,
-        "x": 490,
-        "y": 140,
+        "x": 550,
+        "y": 380,
         "wires": [
             [
-                "6d2b7d4489774df7"
+                "912a609196eba404"
             ]
         ]
     },
     {
+        "id": "912a609196eba404",
+        "type": "function",
+        "z": "20ca6f2edc9b2431",
+        "name": "function 16",
+        "func": "var body = msg.payload\nvar returnvalues = {}\nreturnvalues[\"edges\"] = []\nfor (var link_list of body) {\n    var node1 = link_list[\"endpoints\"][0].split(':')\n    var node2 = link_list[\"endpoints\"][1].split(':')\n    var result = {}\n    result = { \"node1\": {}, \"node2\": {}}\n    result[\"node1\"][\"hostname\"] = node1[0]\n    result[\"node1\"][\"interfaceName\"] = node1[1]\n    result[\"node2\"][\"hostname\"] = node2[0]\n    result[\"node2\"][\"interfaceName\"] = node2[1]\n    returnvalues[\"edges\"].push(result)\n    //reverse link info\n    result = { \"node1\": {}, \"node2\": {} }\n    result[\"node1\"][\"hostname\"] = node2[0]\n    result[\"node1\"][\"interfaceName\"] = node2[1]\n    result[\"node2\"][\"hostname\"] = node1[0]\n    result[\"node2\"][\"interfaceName\"] = node1[1]\n    returnvalues[\"edges\"].push(result)\n\n}\nmsg.payload = returnvalues\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 790,
+        "y": 380,
+        "wires": [
+            [
+                "f0205f63334fa3f5",
+                "d9accaa3855e9110"
+            ]
+        ]
+    },
+    {
+        "id": "3aef46e17bfc3371",
+        "type": "function",
+        "z": "20ca6f2edc9b2431",
+        "name": "store payload",
+        "func": "flow.set('json-data', msg.payload);\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 180,
+        "y": 120,
+        "wires": [
+            [
+                "10442146bec537d4"
+            ]
+        ]
+    },
+    {
+        "id": "50f858fb01dda2ca",
+        "type": "function",
+        "z": "20ca6f2edc9b2431",
+        "name": "restore payload",
+        "func": "var jsondata = flow.get('json-data')\nmsg.payload = jsondata\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 200,
+        "wires": [
+            [
+                "c2ba79ff7c2deb80"
+            ]
+        ]
+    },
+    {
+        "id": "1e1e745ab7162264",
+        "type": "http response",
+        "z": "c97bb4afad13ec17",
+        "name": "",
+        "statusCode": "",
+        "headers": {
+            "content-type": "application/json"
+        },
+        "x": 1350,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "5718da060e101d4c",
+        "type": "debug",
+        "z": "c97bb4afad13ec17",
+        "name": "debug 7",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1340,
+        "y": 260,
+        "wires": []
+    },
+    {
         "id": "18d3c3d8b7c4e022",
         "type": "http in",
-        "z": "1298b4fe103a59c1",
+        "z": "c97bb4afad13ec17",
         "name": "",
         "url": "/ospf/convertif/batfish",
         "method": "post",
         "upload": false,
         "swaggerDoc": "",
-        "x": 110,
-        "y": 1060,
+        "x": 150,
+        "y": 180,
         "wires": [
             [
-                "4d1dac8f8467239e",
-                "c36e5a7e4d2ea148"
+                "2b36f14b11a10eb5"
             ]
         ]
     },
     {
         "id": "4d1dac8f8467239e",
         "type": "http request",
-        "z": "1298b4fe103a59c1",
+        "z": "c97bb4afad13ec17",
         "name": "request /ospf_iflist/area0",
         "method": "POST",
         "ret": "txt",
@@ -835,8 +1020,8 @@
                 "valueValue": ""
             }
         ],
-        "x": 430,
-        "y": 1020,
+        "x": 470,
+        "y": 220,
         "wires": [
             [
                 "b6ee4b6ec70e85b2"
@@ -846,430 +1031,7 @@
     {
         "id": "c36e5a7e4d2ea148",
         "type": "http request",
-        "z": "1298b4fe103a59c1",
-        "name": "request /convertif/batfish/eth",
-        "method": "POST",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "http://localhost:1880/convertif/batfish/eth",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [
-            {
-                "keyType": "Content-Type",
-                "keyValue": "",
-                "valueType": "application/json",
-                "valueValue": ""
-            }
-        ],
-        "x": 400,
-        "y": 1080,
-        "wires": [
-            [
-                "767067f3c6668495"
-            ]
-        ]
-    },
-    {
-        "id": "b6ee4b6ec70e85b2",
-        "type": "json",
-        "z": "1298b4fe103a59c1",
-        "name": "",
-        "property": "payload",
-        "action": "obj",
-        "pretty": false,
-        "x": 630,
-        "y": 1000,
-        "wires": [
-            [
-                "80bb5bf4ae1f69ad"
-            ]
-        ]
-    },
-    {
-        "id": "767067f3c6668495",
-        "type": "json",
-        "z": "1298b4fe103a59c1",
-        "name": "",
-        "property": "payload",
-        "action": "obj",
-        "pretty": false,
-        "x": 610,
-        "y": 1100,
-        "wires": [
-            [
-                "f166d8cc1a13d1da"
-            ]
-        ]
-    },
-    {
-        "id": "80bb5bf4ae1f69ad",
-        "type": "function",
-        "z": "1298b4fe103a59c1",
-        "name": "function 8",
-        "func": "flow.set('ospfif', msg.payload);\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 760,
-        "y": 1000,
-        "wires": [
-            [
-                "b171f0423d69c0c2"
-            ]
-        ]
-    },
-    {
-        "id": "f166d8cc1a13d1da",
-        "type": "function",
-        "z": "1298b4fe103a59c1",
-        "name": "function 9",
-        "func": "flow.set('convertif', msg.payload);\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 740,
-        "y": 1100,
-        "wires": [
-            [
-                "b171f0423d69c0c2"
-            ]
-        ]
-    },
-    {
-        "id": "b171f0423d69c0c2",
-        "type": "function",
-        "z": "1298b4fe103a59c1",
-        "name": "ospf_attribute",
-        "func": "var json1 = flow.get('ospfif')\nvar json2 = flow.get('convertif')\nfor (var e1 of json1) {\n    for (var e2 of json2) {\n        if (e1.node == e2.node.original) {\n            e1.iflist.forEach(function (itf1, idx1) { \n                e2.iflist.forEach(function (itf2) { \n                    if (itf1 === itf2.original) e1.iflist[idx1] = itf2.clab\n                }) \n            }) \n        }\n    }\n}\n\nmsg.payload = json1\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 920,
-        "y": 1060,
-        "wires": [
-            [
-                "f0205f63334fa3f5",
-                "d9accaa3855e9110"
-            ]
-        ]
-    },
-    {
-        "id": "d9accaa3855e9110",
-        "type": "debug",
-        "z": "1298b4fe103a59c1",
-        "name": "debug 6",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1200,
-        "y": 1040,
-        "wires": []
-    },
-    {
-        "id": "036d184bd40981df",
-        "type": "http in",
-        "z": "1298b4fe103a59c1",
-        "name": "",
-        "url": "/routetable/:routername",
-        "method": "post",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 140,
-        "y": 1220,
-        "wires": [
-            [
-                "86e59730818fe1d9",
-                "3771560cd3a2beb7"
-            ]
-        ]
-    },
-    {
-        "id": "86e59730818fe1d9",
-        "type": "http request",
-        "z": "1298b4fe103a59c1",
-        "name": "request /convertif/batfish/eth",
-        "method": "POST",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "http://localhost:1880/convertif/batfish/eth",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [
-            {
-                "keyType": "Content-Type",
-                "keyValue": "",
-                "valueType": "application/json",
-                "valueValue": ""
-            }
-        ],
-        "x": 440,
-        "y": 1200,
-        "wires": [
-            [
-                "0100ae1cd000598a"
-            ]
-        ]
-    },
-    {
-        "id": "4e7b8ec50d9309d8",
-        "type": "file in",
-        "z": "1298b4fe103a59c1",
-        "name": "",
-        "filename": "payload",
-        "filenameType": "msg",
-        "format": "",
-        "chunk": false,
-        "sendError": false,
-        "encoding": "none",
-        "allProps": false,
-        "x": 480,
-        "y": 1260,
-        "wires": [
-            [
-                "f6af1945701811f5"
-            ]
-        ]
-    },
-    {
-        "id": "f6af1945701811f5",
-        "type": "json",
-        "z": "1298b4fe103a59c1",
-        "name": "",
-        "property": "payload",
-        "action": "str",
-        "pretty": false,
-        "x": 630,
-        "y": 1300,
-        "wires": [
-            [
-                "19c4e46efb304936"
-            ]
-        ]
-    },
-    {
-        "id": "0100ae1cd000598a",
-        "type": "json",
-        "z": "1298b4fe103a59c1",
-        "name": "",
-        "property": "payload",
-        "action": "obj",
-        "pretty": false,
-        "x": 650,
-        "y": 1200,
-        "wires": [
-            [
-                "e51141c0c92f3e6e"
-            ]
-        ]
-    },
-    {
-        "id": "3771560cd3a2beb7",
-        "type": "function",
-        "z": "1298b4fe103a59c1",
-        "name": "generate show route file path",
-        "func": "var filedir = \"/data\"\nflow.set('routername', msg.req.params.routername);\nvar filename = msg.req.params.routername.concat('', \"_route.json\")\nmsg.payload = filedir.concat('/',filename)\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 240,
-        "y": 1280,
-        "wires": [
-            [
-                "4e7b8ec50d9309d8"
-            ]
-        ]
-    },
-    {
-        "id": "e51141c0c92f3e6e",
-        "type": "function",
-        "z": "1298b4fe103a59c1",
-        "name": "function 10",
-        "func": "flow.set('convertif', msg.payload);\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 810,
-        "y": 1200,
-        "wires": [
-            [
-                "62f1af8d6f9cde46"
-            ]
-        ]
-    },
-    {
-        "id": "19c4e46efb304936",
-        "type": "function",
-        "z": "1298b4fe103a59c1",
-        "name": "function 11",
-        "func": "flow.set('routetable', msg.payload);\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 810,
-        "y": 1320,
-        "wires": [
-            [
-                "62f1af8d6f9cde46"
-            ]
-        ]
-    },
-    {
-        "id": "62f1af8d6f9cde46",
-        "type": "function",
-        "z": "1298b4fe103a59c1",
-        "name": "function 12",
-        "func": "var routetable = flow.get('routetable')\nvar convertif = flow.get('convertif')\nvar routername = flow.get('routername')\n\nfor (  var convert_list of convertif ){\n    if (convert_list[\"node\"][\"clab\"] == routername){\n        for (var iflist of convert_list[\"iflist\"]) {\n            var clabif = iflist[\"clab\"]\n            let re = new RegExp(clabif, 'g')\n            var originif = iflist[\"original\"]\n            if (iflist[\"clab\"] != \"lo\") {\n                var tmproutetable = routetable.toString().replace(re, originif)\n            }\n            routetable = tmproutetable\n        }\n    }\n}\nmsg.payload = routetable\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 990,
-        "y": 1260,
-        "wires": [
-            [
-                "e9182d02b05b74e9"
-            ]
-        ]
-    },
-    {
-        "id": "e9182d02b05b74e9",
-        "type": "json",
-        "z": "1298b4fe103a59c1",
-        "name": "",
-        "property": "payload",
-        "action": "obj",
-        "pretty": false,
-        "x": 1110,
-        "y": 1160,
-        "wires": [
-            [
-                "f0205f63334fa3f5",
-                "d9accaa3855e9110"
-            ]
-        ]
-    },
-    {
-        "id": "4f06b6184b982abb",
-        "type": "http in",
-        "z": "1298b4fe103a59c1",
-        "name": "",
-        "url": "/ospfneigh/:routername",
-        "method": "post",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 140,
-        "y": 1380,
-        "wires": [
-            [
-                "c88dd14fe63d8a3e",
-                "224084a2b4cba0c3"
-            ]
-        ]
-    },
-    {
-        "id": "c88dd14fe63d8a3e",
-        "type": "function",
-        "z": "1298b4fe103a59c1",
-        "name": "generate show route file path",
-        "func": "var filedir = \"/data\"\nflow.set('routername', msg.req.params.routername);\nvar filename = msg.req.params.routername.concat('', \"_ospfneigh.json\")\nmsg.payload = filedir.concat('/',filename)\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 300,
-        "y": 1460,
-        "wires": [
-            [
-                "e82bbf51e262b6e0"
-            ]
-        ]
-    },
-    {
-        "id": "e82bbf51e262b6e0",
-        "type": "file in",
-        "z": "1298b4fe103a59c1",
-        "name": "",
-        "filename": "payload",
-        "filenameType": "msg",
-        "format": "",
-        "chunk": false,
-        "sendError": false,
-        "encoding": "none",
-        "allProps": false,
-        "x": 540,
-        "y": 1480,
-        "wires": [
-            [
-                "4add4e7d9bda2d20"
-            ]
-        ]
-    },
-    {
-        "id": "4add4e7d9bda2d20",
-        "type": "json",
-        "z": "1298b4fe103a59c1",
-        "name": "",
-        "property": "payload",
-        "action": "str",
-        "pretty": false,
-        "x": 730,
-        "y": 1500,
-        "wires": [
-            [
-                "10bde5e0193b8c8e"
-            ]
-        ]
-    },
-    {
-        "id": "10bde5e0193b8c8e",
-        "type": "function",
-        "z": "1298b4fe103a59c1",
-        "name": "function 13",
-        "func": "flow.set('ospfneigh', msg.payload);\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 910,
-        "y": 1480,
-        "wires": [
-            [
-                "f46af66107572b56"
-            ]
-        ]
-    },
-    {
-        "id": "224084a2b4cba0c3",
-        "type": "http request",
-        "z": "1298b4fe103a59c1",
+        "z": "c97bb4afad13ec17",
         "name": "request /convertif/batfish/eth",
         "method": "POST",
         "ret": "txt",
@@ -1290,7 +1052,505 @@
             }
         ],
         "x": 520,
-        "y": 1380,
+        "y": 400,
+        "wires": [
+            [
+                "767067f3c6668495"
+            ]
+        ]
+    },
+    {
+        "id": "b6ee4b6ec70e85b2",
+        "type": "json",
+        "z": "c97bb4afad13ec17",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 630,
+        "y": 260,
+        "wires": [
+            [
+                "80bb5bf4ae1f69ad"
+            ]
+        ]
+    },
+    {
+        "id": "767067f3c6668495",
+        "type": "json",
+        "z": "c97bb4afad13ec17",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 750,
+        "y": 380,
+        "wires": [
+            [
+                "f166d8cc1a13d1da"
+            ]
+        ]
+    },
+    {
+        "id": "80bb5bf4ae1f69ad",
+        "type": "function",
+        "z": "c97bb4afad13ec17",
+        "name": "function 8",
+        "func": "flow.set('ospfif', msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 720,
+        "y": 300,
+        "wires": [
+            [
+                "16e7514d557d7721"
+            ]
+        ]
+    },
+    {
+        "id": "f166d8cc1a13d1da",
+        "type": "function",
+        "z": "c97bb4afad13ec17",
+        "name": "function 9",
+        "func": "flow.set('convertif', msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 920,
+        "y": 420,
+        "wires": [
+            [
+                "b171f0423d69c0c2"
+            ]
+        ]
+    },
+    {
+        "id": "b171f0423d69c0c2",
+        "type": "function",
+        "z": "c97bb4afad13ec17",
+        "name": "ospf_attribute",
+        "func": "var json1 = flow.get('ospfif')\nvar json2 = flow.get('convertif')\nfor (var e1 of json1) {\n    for (var e2 of json2) {\n        if (e1.node == e2.node.original) {\n            e1.iflist.forEach(function (itf1, idx1) { \n                e2.iflist.forEach(function (itf2) { \n                    if (itf1 === itf2.original) e1.iflist[idx1] = itf2.clab\n                }) \n            }) \n        }\n    }\n}\n\nmsg.payload = json1\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1100,
+        "y": 300,
+        "wires": [
+            [
+                "1e1e745ab7162264",
+                "5718da060e101d4c"
+            ]
+        ]
+    },
+    {
+        "id": "6d2b7d4489774df7",
+        "type": "function",
+        "z": "c97bb4afad13ec17",
+        "name": "ospf_parse",
+        "func": "var temp = msg[\"payload\"][\"ietf-network:networks\"][\"network\"];\nvar area = msg.req.params.area\nvar dict = {};\nvar array = [];\nfor (const ospfdict of temp){\n    var ospfarea = \"ospf\"\n    if (ospfdict[\"network-id\"] == ospfarea.concat('_', area)) {\n        for (const item of ospfdict[\"node\"]) {\n            if (item[\"mddo-topology:ospf-area-node-attributes\"][\"node-type\"] == \"ospf_proc\") {\n                var tpid = [];\n                var attribute = []\n                for (const item2 of item[\"ietf-network-topology:termination-point\"] ) {\n                    tpid.push(item2[\"tp-id\"]);\n                    attribute.push(item2[\"mddo-topology:ospf-area-termination-point-attributes\"]);\n                }              \n                dict = { \"node\": item[\"node-id\"], \"iflist\": tpid, \"if_attribute\": attribute, \"attributes\": item[\"mddo-topology:ospf-area-node-attributes\"] }\n                array.push(dict)\n\n            }\n        }\n    }\n}\n\nmsg.payload = array;\nreturn msg;\n\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 930,
+        "y": 120,
+        "wires": [
+            [
+                "1e1e745ab7162264",
+                "5718da060e101d4c"
+            ]
+        ]
+    },
+    {
+        "id": "26999ae610120c3f",
+        "type": "http in",
+        "z": "c97bb4afad13ec17",
+        "name": "",
+        "url": "/ospf_iflist/:area",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 180,
+        "y": 80,
+        "wires": [
+            [
+                "db948e0291dbe83c"
+            ]
+        ]
+    },
+    {
+        "id": "db948e0291dbe83c",
+        "type": "json",
+        "z": "c97bb4afad13ec17",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 550,
+        "y": 100,
+        "wires": [
+            [
+                "6d2b7d4489774df7"
+            ]
+        ]
+    },
+    {
+        "id": "2b36f14b11a10eb5",
+        "type": "function",
+        "z": "c97bb4afad13ec17",
+        "name": "store payload",
+        "func": "flow.set('json-data', msg.payload);\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 200,
+        "y": 280,
+        "wires": [
+            [
+                "4d1dac8f8467239e"
+            ]
+        ]
+    },
+    {
+        "id": "16e7514d557d7721",
+        "type": "function",
+        "z": "c97bb4afad13ec17",
+        "name": "restore payload",
+        "func": "var jsondata = flow.get('json-data')\nmsg.payload = jsondata\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 260,
+        "y": 380,
+        "wires": [
+            [
+                "c36e5a7e4d2ea148"
+            ]
+        ]
+    },
+    {
+        "id": "036d184bd40981df",
+        "type": "http in",
+        "z": "b906a794ad49ed2f",
+        "name": "",
+        "url": "/routetable/:routername",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 140,
+        "y": 100,
+        "wires": [
+            [
+                "86e59730818fe1d9",
+                "3771560cd3a2beb7"
+            ]
+        ]
+    },
+    {
+        "id": "86e59730818fe1d9",
+        "type": "http request",
+        "z": "b906a794ad49ed2f",
+        "name": "request /convertif/batfish/eth",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://localhost:1880/convertif/batfish/eth",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "Content-Type",
+                "keyValue": "",
+                "valueType": "application/json",
+                "valueValue": ""
+            }
+        ],
+        "x": 440,
+        "y": 80,
+        "wires": [
+            [
+                "0100ae1cd000598a"
+            ]
+        ]
+    },
+    {
+        "id": "4e7b8ec50d9309d8",
+        "type": "file in",
+        "z": "b906a794ad49ed2f",
+        "name": "",
+        "filename": "payload",
+        "filenameType": "msg",
+        "format": "",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 480,
+        "y": 140,
+        "wires": [
+            [
+                "f6af1945701811f5"
+            ]
+        ]
+    },
+    {
+        "id": "f6af1945701811f5",
+        "type": "json",
+        "z": "b906a794ad49ed2f",
+        "name": "",
+        "property": "payload",
+        "action": "str",
+        "pretty": false,
+        "x": 630,
+        "y": 180,
+        "wires": [
+            [
+                "19c4e46efb304936"
+            ]
+        ]
+    },
+    {
+        "id": "0100ae1cd000598a",
+        "type": "json",
+        "z": "b906a794ad49ed2f",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 650,
+        "y": 80,
+        "wires": [
+            [
+                "e51141c0c92f3e6e"
+            ]
+        ]
+    },
+    {
+        "id": "3771560cd3a2beb7",
+        "type": "function",
+        "z": "b906a794ad49ed2f",
+        "name": "generate show route file path",
+        "func": "var filedir = \"/data\"\nflow.set('routername', msg.req.params.routername);\nvar filename = msg.req.params.routername.concat('', \"_route.json\")\nmsg.payload = filedir.concat('/',filename)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 240,
+        "y": 160,
+        "wires": [
+            [
+                "4e7b8ec50d9309d8"
+            ]
+        ]
+    },
+    {
+        "id": "e51141c0c92f3e6e",
+        "type": "function",
+        "z": "b906a794ad49ed2f",
+        "name": "function 10",
+        "func": "flow.set('convertif', msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 810,
+        "y": 80,
+        "wires": [
+            [
+                "62f1af8d6f9cde46"
+            ]
+        ]
+    },
+    {
+        "id": "19c4e46efb304936",
+        "type": "function",
+        "z": "b906a794ad49ed2f",
+        "name": "function 11",
+        "func": "flow.set('routetable', msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 810,
+        "y": 200,
+        "wires": [
+            [
+                "62f1af8d6f9cde46"
+            ]
+        ]
+    },
+    {
+        "id": "62f1af8d6f9cde46",
+        "type": "function",
+        "z": "b906a794ad49ed2f",
+        "name": "function 12",
+        "func": "var routetable = flow.get('routetable')\nvar convertif = flow.get('convertif')\nvar routername = flow.get('routername')\n\nfor (  var convert_list of convertif ){\n    if (convert_list[\"node\"][\"clab\"] == routername){\n        for (var iflist of convert_list[\"iflist\"]) {\n            var clabif = iflist[\"clab\"]\n            let re = new RegExp(clabif, 'g')\n            var originif = iflist[\"original\"]\n            if (iflist[\"clab\"] != \"lo\") {\n                var tmproutetable = routetable.toString().replace(re, originif)\n            }\n            routetable = tmproutetable\n        }\n    }\n}\nmsg.payload = routetable\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 990,
+        "y": 140,
+        "wires": [
+            [
+                "e9182d02b05b74e9"
+            ]
+        ]
+    },
+    {
+        "id": "e9182d02b05b74e9",
+        "type": "json",
+        "z": "b906a794ad49ed2f",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 1150,
+        "y": 80,
+        "wires": [
+            [
+                "51df6dcc32531f42",
+                "1a461a6e02b3816d"
+            ]
+        ]
+    },
+    {
+        "id": "4f06b6184b982abb",
+        "type": "http in",
+        "z": "b906a794ad49ed2f",
+        "name": "",
+        "url": "/ospfneigh/:routername",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 140,
+        "y": 260,
+        "wires": [
+            [
+                "c88dd14fe63d8a3e",
+                "224084a2b4cba0c3"
+            ]
+        ]
+    },
+    {
+        "id": "c88dd14fe63d8a3e",
+        "type": "function",
+        "z": "b906a794ad49ed2f",
+        "name": "generate show route file path",
+        "func": "var filedir = \"/data\"\nflow.set('routername', msg.req.params.routername);\nvar filename = msg.req.params.routername.concat('', \"_ospfneigh.json\")\nmsg.payload = filedir.concat('/',filename)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 340,
+        "wires": [
+            [
+                "e82bbf51e262b6e0"
+            ]
+        ]
+    },
+    {
+        "id": "e82bbf51e262b6e0",
+        "type": "file in",
+        "z": "b906a794ad49ed2f",
+        "name": "",
+        "filename": "payload",
+        "filenameType": "msg",
+        "format": "",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 540,
+        "y": 360,
+        "wires": [
+            [
+                "4add4e7d9bda2d20"
+            ]
+        ]
+    },
+    {
+        "id": "4add4e7d9bda2d20",
+        "type": "json",
+        "z": "b906a794ad49ed2f",
+        "name": "",
+        "property": "payload",
+        "action": "str",
+        "pretty": false,
+        "x": 730,
+        "y": 380,
+        "wires": [
+            [
+                "10bde5e0193b8c8e"
+            ]
+        ]
+    },
+    {
+        "id": "10bde5e0193b8c8e",
+        "type": "function",
+        "z": "b906a794ad49ed2f",
+        "name": "function 13",
+        "func": "flow.set('ospfneigh', msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 910,
+        "y": 360,
+        "wires": [
+            [
+                "f46af66107572b56"
+            ]
+        ]
+    },
+    {
+        "id": "224084a2b4cba0c3",
+        "type": "http request",
+        "z": "b906a794ad49ed2f",
+        "name": "request /convertif/batfish/eth",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://localhost:1880/convertif/batfish/eth",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "Content-Type",
+                "keyValue": "",
+                "valueType": "application/json",
+                "valueValue": ""
+            }
+        ],
+        "x": 520,
+        "y": 260,
         "wires": [
             [
                 "9e70e152adc5971b"
@@ -1300,13 +1560,13 @@
     {
         "id": "9e70e152adc5971b",
         "type": "json",
-        "z": "1298b4fe103a59c1",
+        "z": "b906a794ad49ed2f",
         "name": "",
         "property": "payload",
         "action": "obj",
         "pretty": false,
         "x": 730,
-        "y": 1420,
+        "y": 300,
         "wires": [
             [
                 "5c70bd3383eba8ad"
@@ -1316,7 +1576,7 @@
     {
         "id": "5c70bd3383eba8ad",
         "type": "function",
-        "z": "1298b4fe103a59c1",
+        "z": "b906a794ad49ed2f",
         "name": "function 14",
         "func": "flow.set('convertif', msg.payload);\nreturn msg;",
         "outputs": 1,
@@ -1325,7 +1585,7 @@
         "finalize": "",
         "libs": [],
         "x": 890,
-        "y": 1420,
+        "y": 300,
         "wires": [
             [
                 "f46af66107572b56"
@@ -1335,7 +1595,7 @@
     {
         "id": "f46af66107572b56",
         "type": "function",
-        "z": "1298b4fe103a59c1",
+        "z": "b906a794ad49ed2f",
         "name": "function 15",
         "func": "var ospfneigh = flow.get('ospfneigh')\nvar convertif = flow.get('convertif')\nvar routername = flow.get('routername')\n\nfor (  var convert_list of convertif ){\n    if (convert_list[\"node\"][\"clab\"] == routername){\n        for (var iflist of convert_list[\"iflist\"]) {\n            var clabif = iflist[\"clab\"]\n            let re = new RegExp(clabif, 'g')\n            var originif = iflist[\"original\"]\n            if (iflist[\"clab\"] != \"lo\") {\n                var tmproutetable = ospfneigh.toString().replace(re, originif)\n            }\n            ospfneigh = tmproutetable\n        }\n    }\n}\nmsg.payload = ospfneigh\n\nreturn msg;",
         "outputs": 1,
@@ -1344,7 +1604,7 @@
         "finalize": "",
         "libs": [],
         "x": 1090,
-        "y": 1420,
+        "y": 300,
         "wires": [
             [
                 "e9182d02b05b74e9"
@@ -1352,269 +1612,32 @@
         ]
     },
     {
-        "id": "0d4809571fdec907",
-        "type": "http in",
-        "z": "1298b4fe103a59c1",
-        "name": "",
-        "url": "convertlink/batfish/parse",
-        "method": "post",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 130,
-        "y": 740,
-        "wires": [
-            [
-                "dbe408ca4de79bd5"
-            ]
-        ]
-    },
-    {
-        "id": "dbe408ca4de79bd5",
-        "type": "http request",
-        "z": "1298b4fe103a59c1",
-        "name": "request convertif batfish_parse",
-        "method": "POST",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "http://localhost:1880/convertif/batfish/batfish_parse",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [
-            {
-                "keyType": "Content-Type",
-                "keyValue": "",
-                "valueType": "application/json",
-                "valueValue": ""
-            }
-        ],
-        "x": 410,
-        "y": 760,
-        "wires": [
-            [
-                "11d08993db29bc4a"
-            ]
-        ]
-    },
-    {
-        "id": "5315fb85b2447063",
-        "type": "http in",
-        "z": "1298b4fe103a59c1",
-        "name": "",
-        "url": "description/batfish/parse",
-        "method": "post",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 130,
-        "y": 800,
-        "wires": [
-            [
-                "70f7cb2db33c4115",
-                "5698c202565af3a0"
-            ]
-        ]
-    },
-    {
-        "id": "70f7cb2db33c4115",
-        "type": "http request",
-        "z": "1298b4fe103a59c1",
-        "name": "request convertlink/batfish/parse",
-        "method": "POST",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "http://localhost:1880/convertlink/batfish/parse",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [
-            {
-                "keyType": "Content-Type",
-                "keyValue": "",
-                "valueType": "application/json",
-                "valueValue": ""
-            }
-        ],
-        "x": 470,
-        "y": 800,
-        "wires": [
-            [
-                "46cbcb2b1f47de64"
-            ]
-        ]
-    },
-    {
-        "id": "5698c202565af3a0",
-        "type": "http request",
-        "z": "1298b4fe103a59c1",
-        "name": "request convertif/batfish",
-        "method": "POST",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "http://localhost:1880/convertif/batfish/batfish_parse",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [
-            {
-                "keyType": "Content-Type",
-                "keyValue": "",
-                "valueType": "application/json",
-                "valueValue": ""
-            }
-        ],
-        "x": 250,
-        "y": 980,
-        "wires": [
-            [
-                "af95c45caf560776"
-            ]
-        ]
-    },
-    {
-        "id": "8c48059a8e172206",
-        "type": "http in",
-        "z": "1298b4fe103a59c1",
-        "name": "",
-        "url": "/ospf/convertif/batfish/parse",
-        "method": "post",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 130,
-        "y": 1120,
-        "wires": [
-            [
-                "4d1dac8f8467239e",
-                "6878f2dbf6cdf130"
-            ]
-        ]
-    },
-    {
-        "id": "6878f2dbf6cdf130",
-        "type": "http request",
-        "z": "1298b4fe103a59c1",
-        "name": "request /convertif/batfish/batfish_parse",
-        "method": "POST",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "http://localhost:1880/convertif/batfish/batfish_parse",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [
-            {
-                "keyType": "Content-Type",
-                "keyValue": "",
-                "valueType": "application/json",
-                "valueValue": ""
-            }
-        ],
-        "x": 450,
-        "y": 1140,
-        "wires": [
-            [
-                "767067f3c6668495"
-            ]
-        ]
-    },
-    {
-        "id": "5c5263734f9d734e",
-        "type": "http in",
-        "z": "1298b4fe103a59c1",
-        "name": "",
-        "url": "batfish_l1topo",
-        "method": "post",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 110,
-        "y": 1540,
-        "wires": [
-            [
-                "8621c04c4e152418"
-            ]
-        ]
-    },
-    {
-        "id": "8621c04c4e152418",
-        "type": "http request",
-        "z": "1298b4fe103a59c1",
-        "name": "request convertlink/batfish",
-        "method": "POST",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "http://localhost:1880/convertlink/batfish",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [],
-        "x": 270,
-        "y": 1620,
-        "wires": [
-            [
-                "676b08a329453c8b"
-            ]
-        ]
-    },
-    {
-        "id": "676b08a329453c8b",
-        "type": "json",
-        "z": "1298b4fe103a59c1",
-        "name": "",
-        "property": "payload",
-        "action": "obj",
-        "pretty": false,
-        "x": 390,
-        "y": 1560,
-        "wires": [
-            [
-                "912a609196eba404"
-            ]
-        ]
-    },
-    {
-        "id": "912a609196eba404",
-        "type": "function",
-        "z": "1298b4fe103a59c1",
-        "name": "function 16",
-        "func": "var body = msg.payload\nvar returnvalues = {}\nreturnvalues[\"edges\"] = []\nfor (var link_list of body) {\n    var node1 = link_list[\"endpoints\"][0].split(':')\n    var node2 = link_list[\"endpoints\"][1].split(':')\n    var result = {}\n    result = { \"node1\": {}, \"node2\": {}}\n    result[\"node1\"][\"hostname\"] = node1[0]\n    result[\"node1\"][\"interfaceName\"] = node1[1]\n    result[\"node2\"][\"hostname\"] = node2[0]\n    result[\"node2\"][\"interfaceName\"] = node2[1]\n    returnvalues[\"edges\"].push(result)\n    //reverse link info\n    result = { \"node1\": {}, \"node2\": {} }\n    result[\"node1\"][\"hostname\"] = node2[0]\n    result[\"node1\"][\"interfaceName\"] = node2[1]\n    result[\"node2\"][\"hostname\"] = node1[0]\n    result[\"node2\"][\"interfaceName\"] = node1[1]\n    returnvalues[\"edges\"].push(result)\n\n}\nmsg.payload = returnvalues\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 570,
-        "y": 1580,
-        "wires": [
-            [
-                "70ce4567082c4ed9"
-            ]
-        ]
-    },
-    {
-        "id": "70ce4567082c4ed9",
+        "id": "51df6dcc32531f42",
         "type": "http response",
-        "z": "1298b4fe103a59c1",
+        "z": "b906a794ad49ed2f",
         "name": "",
         "statusCode": "",
         "headers": {
             "content-type": "application/json"
         },
-        "x": 770,
-        "y": 1600,
+        "x": 1310,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "1a461a6e02b3816d",
+        "type": "debug",
+        "z": "b906a794ad49ed2f",
+        "name": "debug 8",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1320,
+        "y": 220,
         "wires": []
     }
 ]
