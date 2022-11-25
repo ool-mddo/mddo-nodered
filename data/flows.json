@@ -362,7 +362,7 @@
         "y": 480,
         "wires": [
             [
-                "6228e6354f6f8bdb"
+                "0c9b5474a99366b0"
             ]
         ]
     },
@@ -653,6 +653,22 @@
         "wires": [
             [
                 "1d2f322dda67a8a8"
+            ]
+        ]
+    },
+    {
+        "id": "0c9b5474a99366b0",
+        "type": "json",
+        "z": "1298b4fe103a59c1",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 510,
+        "y": 540,
+        "wires": [
+            [
+                "6228e6354f6f8bdb"
             ]
         ]
     },
