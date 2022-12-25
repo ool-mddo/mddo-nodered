@@ -69,7 +69,7 @@
         "type": "function",
         "z": "1298b4fe103a59c1",
         "name": "convertlist",
-        "func": "var temp = msg[\"payload\"];\nvar array = [];\nfor (var tmpnode of temp) {\n  var array2 = []\n  for (let i = 0; i < tmpnode[\"iflist\"].length; i++) {\n    var convertlist = {};\n    var ifname;\n\n    ifname = msg.req.params.ifname;\n    convertlist[\"original\"] = tmpnode[\"iflist\"][i];\n    convertlist[\"clab\"] = ifname.concat('', i+1)\n    array2.push(convertlist)\n  }\n  array.push({ \"node\": { \"original\": tmpnode[\"node\"], \"clab\": tmpnode[\"node\"].replace(\"/\", \"-\").replace(\"_\", \"-\").replace(\"+\", \"-\")   }, \"iflist\": array2 })\n}\nmsg.payload = array\nreturn msg;",
+        "func": "var temp = msg[\"payload\"];\nvar array = [];\nfor (var tmpnode of temp) {\n  var array2 = []\n  for (let i = 0; i < tmpnode[\"iflist\"].length; i++) {\n    var convertlist = {};\n    var ifname;\n\n    ifname = msg.req.params.ifname;\n    convertlist[\"original\"] = tmpnode[\"iflist\"][i];\n    if (ifname == \"crpd\") {\n      ifname = \"eth\"\n      convertlist[\"clab\"] = ifname.concat('', i + 1).concat('', '.0')\n    } else {\n      convertlist[\"clab\"] = ifname.concat('', i+1)\n    }\n    array2.push(convertlist)\n  }\n  array.push({ \"node\": { \"original\": tmpnode[\"node\"], \"clab\": tmpnode[\"node\"].replace(\"/\", \"-\").replace(\"_\", \"-\").replace(\"+\", \"-\")   }, \"iflist\": array2 })\n}\nmsg.payload = array\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -141,7 +141,7 @@
         "type": "function",
         "z": "1298b4fe103a59c1",
         "name": "convertlist_batfish",
-        "func": "var temp = msg[\"payload\"];\nvar array = [];\nvar loopback_regex = \"lo|Loop\"\nvar batfish_ifphrase = \"ge-0/0/\"\nvar clab_loopback = \"lo\"\nfor (var tmpnode of temp) {\n  var array2 = []\n  var loopback_index = 0\n  for (let i = 0; i < tmpnode[\"iflist\"].length; i++) {\n    var convertlist = {};\n    var ifname;\n    if (tmpnode[\"node\"].includes(\"Seg\")){\n        ifname = \"Ethernet\";\n    }\n    else {\n      ifname = msg.req.params.ifname;\n    }\n    convertlist[\"original\"] = tmpnode[\"iflist\"][i];\n    if (tmpnode[\"iflist\"][i].match(loopback_regex)) {\n      if ( ifname == \"batfish_parse\" ) {\n          convertlist[\"clab\"] = clab_loopback.concat(loopback_index)\n      }\n      else {\n        convertlist[\"clab\"] = clab_loopback\n      }\n      loopback_index = loopback_index + 1\n    }\n    else {\n      if (ifname == \"batfish_parse\") {\n          convertlist[\"clab\"] = batfish_ifphrase.concat('', i)\n      }\n      else {\n        convertlist[\"clab\"] = ifname.concat('', i + 1)\n      }      \n    }\n    array2.push(convertlist)\n  }\n  array.push({ \"node\": { \"original\": tmpnode[\"node\"], \"clab\": tmpnode[\"node\"].replace(\"/\", \"-\").replace(\"_\", \"-\").replace(\"+\", \"\") }, \"iflist\": array2 })\n}\nmsg.payload = array\nreturn msg;",
+        "func": "var temp = msg[\"payload\"];\nvar array = [];\nvar loopback_regex = \"lo|Loop\"\nvar batfish_ifphrase = \"ge-0/0/\"\nvar clab_loopback = \"lo\"\nfor (var tmpnode of temp) {\n  var array2 = []\n  var loopback_index = 0\n  for (let i = 0; i < tmpnode[\"iflist\"].length; i++) {\n    var convertlist = {};\n    var ifname;\n    if (tmpnode[\"node\"].includes(\"Seg\")){\n        ifname = \"Ethernet\";\n    }\n    else {\n      ifname = msg.req.params.ifname;\n    }\n    convertlist[\"original\"] = tmpnode[\"iflist\"][i];\n    if (tmpnode[\"iflist\"][i].match(loopback_regex)) {\n      if ( ifname == \"batfish_parse\" ) {\n          convertlist[\"clab\"] = clab_loopback.concat(loopback_index)\n      }\n      else {\n        convertlist[\"clab\"] = clab_loopback\n      }\n      loopback_index = loopback_index + 1\n    }\n    else {\n      if (ifname == \"batfish_parse\") {\n          convertlist[\"clab\"] = batfish_ifphrase.concat('', i)\n      }\n      else if (ifname == \"crpd\") {\n        ifname = \"eth\"\n        convertlist[\"clab\"] = ifname.concat('', i + 1).concat('', '.0')\n      }      \n      else {\n        convertlist[\"clab\"] = ifname.concat('', i + 1)\n      }      \n    }\n    array2.push(convertlist)\n  }\n  array.push({ \"node\": { \"original\": tmpnode[\"node\"], \"clab\": tmpnode[\"node\"].replace(\"/\", \"-\").replace(\"_\", \"-\").replace(\"+\", \"\") }, \"iflist\": array2 })\n}\nmsg.payload = array\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -343,7 +343,7 @@
         "method": "POST",
         "ret": "txt",
         "paytoqs": "ignore",
-        "url": "http://localhost:1880/convertif/eth",
+        "url": "http://localhost:1880/convertif/crpd",
         "tls": "",
         "persist": false,
         "proxy": "",
@@ -362,7 +362,7 @@
         "y": 480,
         "wires": [
             [
-                "6228e6354f6f8bdb"
+                "0c9b5474a99366b0"
             ]
         ]
     },
@@ -512,7 +512,7 @@
         "method": "POST",
         "ret": "txt",
         "paytoqs": "ignore",
-        "url": "http://localhost:1880/convertif/batfish/eth",
+        "url": "http://localhost:1880/convertif/batfish/crpd",
         "tls": "",
         "persist": false,
         "proxy": "",
@@ -657,6 +657,22 @@
         ]
     },
     {
+        "id": "0c9b5474a99366b0",
+        "type": "json",
+        "z": "1298b4fe103a59c1",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 510,
+        "y": 540,
+        "wires": [
+            [
+                "6228e6354f6f8bdb"
+            ]
+        ]
+    },
+    {
         "id": "f0205f63334fa3f5",
         "type": "http response",
         "z": "20ca6f2edc9b2431",
@@ -725,7 +741,7 @@
         "method": "POST",
         "ret": "txt",
         "paytoqs": "ignore",
-        "url": "http://localhost:1880/convertif/batfish/eth",
+        "url": "http://localhost:1880/convertif/batfish/crpd",
         "tls": "",
         "persist": false,
         "proxy": "",
@@ -1054,7 +1070,7 @@
         "method": "POST",
         "ret": "txt",
         "paytoqs": "ignore",
-        "url": "http://localhost:1880/convertif/batfish/eth",
+        "url": "http://localhost:1880/convertif/batfish/crpd",
         "tls": "",
         "persist": false,
         "proxy": "",
@@ -1284,7 +1300,7 @@
         "method": "POST",
         "ret": "txt",
         "paytoqs": "ignore",
-        "url": "http://localhost:1880/convertif/batfish/eth",
+        "url": "http://localhost:1880/convertif/batfish/crpd",
         "tls": "",
         "persist": false,
         "proxy": "",
@@ -1552,7 +1568,7 @@
         "method": "POST",
         "ret": "txt",
         "paytoqs": "ignore",
-        "url": "http://localhost:1880/convertif/batfish/eth",
+        "url": "http://localhost:1880/convertif/batfish/crpd",
         "tls": "",
         "persist": false,
         "proxy": "",
