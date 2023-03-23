@@ -16,8 +16,9 @@ services:
       - TZ=Europe/Amsterdam
     ports:
       - "1880:1880"
-    networks:
-      - node-red-net
+#    networks:
+#      - playground_default
+#      - node-red-net
     volumes:
       - ./data:/data
       #- node-red-data:/data
@@ -32,9 +33,15 @@ services:
     environment:
       SWAGGER_FILE: /openapi.yaml
     networks:
-      - node-red-net
+      - default
+#      - playground_default
+#      - node-red-net
 #volumes:
 #  node-red-data:
-
 networks:
-  node-red-net:
+  default:
+    name: playground_default
+    external: true
+#networks:
+  #playground_default:
+  #  node-red-net:
